@@ -125,7 +125,6 @@
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(100, 20);
             this.nameBox.TabIndex = 3;
-            this.nameBox.Text = "Name";
             // 
             // label2
             // 

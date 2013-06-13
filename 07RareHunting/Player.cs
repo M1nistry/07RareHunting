@@ -10,10 +10,13 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Windows.Forms;
+
 namespace _07RareHunting
 {
     using System;
     using System.Collections;
+    using System.Reflection;
 
     using ExitGames.Client.Photon;
     using ExitGames.Client.Photon.Lite;
@@ -163,20 +166,18 @@ namespace _07RareHunting
         /// actually sends it's position! See Game.SendPostion(), which choses the local player only.
         /// </remarks>
         /// <param name="peer"></param>
-        public void SendEvMove(LitePeer peer)
+        public void SendEvMove(LitePeer peer, string spawnNumber, string playerName)
         {
 
-            Console.WriteLine("EvMove");
             if (peer == null)
             {
                 return;
             }
             var updateStatus = new Hashtable();
-            //updateStatus.Add(mainForm.spawnCombo.SelectedText, mainForm.nameBox.Text);           
+            updateStatus.Add(spawnNumber, playerName);            
 
             // if encryption is turned off, we simply use OpRaiseEvent
             peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable, (byte)0);                                                               
-          // Console.WriteLine("F" + form1.nameBox.Text);
         }
         
         #endregion

@@ -376,8 +376,7 @@ namespace _07RareHunting
             {
                 return;
             }
-           LocalPlayer.SendEvMove(Peer);
-            Console.WriteLine("Test:" + form1.nameBox.Text);
+           LocalPlayer.SendEvMove(Peer, "1", form1.nameBox.Text);
         }
 
         // Will create and queue the operation OpRaiseEvent with local player's color and name (not position).
