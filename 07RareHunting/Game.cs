@@ -34,6 +34,8 @@ namespace _07RareHunting
         #region Members
         public Form1 form1;
 
+        public string NumberSpawn = "", NameSpawn = "";
+
         private readonly Thread updateThread;        
 
         public string ServerAddress = "127.0.0.1:5055";	// this must be replaced with an IP of your server  in form of: "ip:port"
@@ -376,7 +378,7 @@ namespace _07RareHunting
             {
                 return;
             }
-           LocalPlayer.SendEvMove(Peer, "1", form1.nameBox.Text);
+           LocalPlayer.SendEvMove(Peer, NumberSpawn, NameSpawn);
         }
 
         // Will create and queue the operation OpRaiseEvent with local player's color and name (not position).

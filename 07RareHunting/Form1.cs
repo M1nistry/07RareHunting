@@ -63,7 +63,8 @@ namespace _07RareHunting
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            
+            GameInstance.NumberSpawn = spawnCombo.Text;
+            GameInstance.NameSpawn = nameBox.Text;
         }
 
         public void DebugReturn(string debug)
