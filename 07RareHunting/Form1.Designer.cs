@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -46,7 +46,7 @@
             this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Names = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.optionsButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).BeginInit();
             this.SuspendLayout();
@@ -286,8 +286,8 @@
             // 
             // SpawnNumber
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.SpawnNumber.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SpawnNumber.DefaultCellStyle = dataGridViewCellStyle4;
             this.SpawnNumber.FillWeight = 60.9137F;
             this.SpawnNumber.HeaderText = "Spawn";
             this.SpawnNumber.Name = "SpawnNumber";
@@ -309,14 +309,15 @@
             this.Names.ReadOnly = true;
             this.Names.ToolTipText = "Names of characters currently at this location";
             // 
-            // button1
+            // optionsButton
             // 
-            this.button1.Location = new System.Drawing.Point(172, 481);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsButton.Location = new System.Drawing.Point(172, 481);
+            this.optionsButton.Name = "optionsButton";
+            this.optionsButton.Size = new System.Drawing.Size(75, 23);
+            this.optionsButton.TabIndex = 8;
+            this.optionsButton.Text = "Options";
+            this.optionsButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -324,7 +325,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(272, 540);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.optionsButton);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.activeCheck);
             this.Controls.Add(this.spawnCombo);
@@ -361,7 +362,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Occupied;
         private System.Windows.Forms.DataGridViewTextBoxColumn Names;
         public System.Windows.Forms.DataGridView spawnDGV;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button optionsButton;
 
     }
 }

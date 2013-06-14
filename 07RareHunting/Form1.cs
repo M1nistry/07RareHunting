@@ -63,8 +63,12 @@ namespace _07RareHunting
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            GameInstance.NumberSpawn = spawnCombo.Text;
-            GameInstance.NameSpawn = nameBox.Text;
+            //If the person is marked as active, update to the server with the supplied information.
+            if (activeCheck.Checked && !spawnCombo.Text.Equals(null) && !nameBox.Text.Equals(null))
+            {
+                GameInstance.NumberSpawn = spawnCombo.Text;
+                GameInstance.NameSpawn = nameBox.Text;
+            }
         }
 
         public void DebugReturn(string debug)

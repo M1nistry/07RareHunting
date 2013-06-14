@@ -18,6 +18,7 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace _07RareHunting
@@ -51,9 +52,9 @@ namespace _07RareHunting
         public Player LocalPlayer = new Player(0);
 
         // networking / timing related settings
-        internal int intervalDispatch = 50; // interval between DispatchIncomingCommands() calls
+        internal int intervalDispatch = 500; // interval between DispatchIncomingCommands() calls
         private int lastDispatch = Environment.TickCount;
-        internal int intervalSend = 50; // interval between SendOutgoingCommands() calls
+        internal int intervalSend = 500; // interval between SendOutgoingCommands() calls
         private int lastSend = Environment.TickCount;
         internal int intervalMove = 500; // interval for auto-movement - each movement creates an OpRaiseEvent
         private int lastMove = Environment.TickCount;
@@ -126,7 +127,6 @@ namespace _07RareHunting
             {
                 this.lastMove = Environment.TickCount;
                 this.SendPosition();
-                Console.WriteLine("Update");
 
             }           
             // Update call for windows phone UI-Thread
@@ -193,9 +193,7 @@ namespace _07RareHunting
         // Photon library callback for state changes (connect, disconnect, etc.)
         // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnStatusChanged(StatusCode returnCode)
-        {
-            this.DebugReturn("OnStatusChanged():" + returnCode);
-            
+        {            
             // handle returnCodes for connect, disconnect and errors (non-operations)
             switch (returnCode)
             {
@@ -245,6 +243,9 @@ namespace _07RareHunting
                 case StatusCode.EncryptionFailedToEstablish:
                     this.DebugReturn("Encryption initialisation failed. Check previous debug output.");
                     break;
+                case StatusCode.QueueIncomingReliableWarning:
+                    Console.WriteLine("Status Code is working");
+                    break;
                 default:
                     this.DebugReturn("OnStatusChanged(): " + returnCode);
                     break;
@@ -287,6 +288,7 @@ namespace _07RareHunting
         // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnEvent(EventData photonEvent)
         {
+            StatusCode statuS = new StatusCode();
             //debug output is OK for all but the most rapidly sent events (in our case: EV_MOVE)
 
             this.DebugReturn("OnEvent() " + photonEvent.ToStringFull());
@@ -341,9 +343,21 @@ namespace _07RareHunting
 
                     this.PrintPlayers();
                     break;
-                case (byte)Player.DemoEventCode.PlayerMove:
-
-                                         
+                case 1:
+                    char[] spltChar = {':','{','}','='};
+                    string[] nameToAdd = (photonEvent.ToStringFull()).Split(spltChar);
+                        
+                    foreach (string s in nameToAdd)
+                    {
+                        if (s.Contains("(String)"))
+                        {                            
+                            string finalString = s.Replace("(String)", null).Replace("=", ":").Replace("Spawn", null).Replace(", Name", null);
+                            if (!finalString.Equals(""))
+                            {
+                                Console.WriteLine("Here we go: " + finalString);
+                            }
+                        }                                         
+                    }
                     break;
             }
         }
