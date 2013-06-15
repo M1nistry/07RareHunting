@@ -38,6 +38,8 @@ namespace _07RareHunting
         public string NameSpawn = "";
         public string NumberSpawn = "";
 
+        public List<object> IncomingData = new List<object>(); 
+
         private readonly Thread updateThread;        
 
         public string ServerAddress = "127.0.0.1:5055";	// this must be replaced with an IP of your server  in form of: "ip:port"
@@ -348,18 +350,24 @@ namespace _07RareHunting
                     this.PrintPlayers();
                     break;
                 case 1:
-                        
+                    //This case statement receives the other clients data and saves it
                     Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;
-                    int originatingActorNr = 0;
-                    if (photonEvent.Parameters.ContainsKey(LiteEventKey.ActorNr))
-                    {
-                        originatingActorNr = (int)photonEvent[(byte)LiteEventKey.ActorNr];
-                    }
-
-                    string message = evData[1].ToString();
                     
-                    Console.WriteLine("" + String.Format("{0}: {1}", "Working", message));                   
-                        
+                    //foreach (DictionaryEntry entry in evData)
+                    //{
+                    Data TableData = new Data
+                        {
+                            PlayerID = evData[1].ToString(),
+                            Spawn = evData[2].ToString(),
+                            Name = evData[3].ToString()                                
+                        };
+                    IncomingData.Add(TableData);
+                        //Console.WriteLine("{0}, {1}", entry.Key, entry.Value);                        
+                    //}
+                    Console.WriteLine("PlayerID: " + IncomingData[0]);
+                    Console.WriteLine("Spawn: " + IncomingData[1]);
+                    Console.WriteLine("Name: " + IncomingData[2]);
+                    
                     break;
             }
         }

@@ -5,11 +5,19 @@ using System.Text;
 
 namespace _07RareHunting
 {
-    class Data
+    public class Data
     {
         //Name of the player
         public string Name { get; set; }
         //Spawn they're at
         public string Spawn { get; set; }
+        //
+        public string PlayerID { get; set; }
+
+        public static void test()
+        {
+            
+        }
     }
+
 }
