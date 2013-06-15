@@ -35,7 +35,8 @@ namespace _07RareHunting
         #region Members
         public Form1 form1;
 
-        public string NumberSpawn = "", NameSpawn = "";
+        public string NameSpawn = "";
+        public string NumberSpawn = "";
 
         private readonly Thread updateThread;        
 
@@ -73,6 +74,9 @@ namespace _07RareHunting
 
         // each instance of this demo joins a random room. this initializes the name:
         public int RoomNumber = Environment.TickCount % 2;
+
+        public enum ChatEventCode : byte { Message = 50, PrivateMessage = 51 }
+        public enum ChatEventKey : byte { TextLine = 1 }
 
         #endregion
 
@@ -344,20 +348,18 @@ namespace _07RareHunting
                     this.PrintPlayers();
                     break;
                 case 1:
-                    char[] spltChar = {':','{','}','='};
-                    string[] nameToAdd = (photonEvent.ToStringFull()).Split(spltChar);
                         
-                    foreach (string s in nameToAdd)
+                    Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;
+                    int originatingActorNr = 0;
+                    if (photonEvent.Parameters.ContainsKey(LiteEventKey.ActorNr))
                     {
-                        if (s.Contains("(String)"))
-                        {                            
-                            string finalString = s.Replace("(String)", null).Replace("=", ":").Replace("Spawn", null).Replace(", Name", null);
-                            if (!finalString.Equals(""))
-                            {
-                                Console.WriteLine("Here we go: " + finalString);
-                            }
-                        }                                         
+                        originatingActorNr = (int)photonEvent[(byte)LiteEventKey.ActorNr];
                     }
+
+                    string message = evData[1].ToString();
+                    
+                    Console.WriteLine("" + String.Format("{0}: {1}", "Working", message));                   
+                        
                     break;
             }
         }

@@ -24,11 +24,13 @@ namespace _07RareHunting
 
     public class Player
     {
-        
 
         #region Variables
 
         private Form1 form1;
+
+        public string Name { get; set; }
+        public string Spawn { get; set; }
 
         /// <summary>
         /// This player's name. In the demo, we just set the platform's name and 
@@ -105,19 +107,17 @@ namespace _07RareHunting
 
         public void SendEvMove(LitePeer peer, string spawnNumber, string playerName)
         {
+            if (peer == null) return;
 
-            if (peer == null)
-            {
-                return;
-            }
             var updateStatus = new Hashtable();
-            updateStatus.Add("Name", playerName);
-            updateStatus.Add("Spawn", spawnNumber);
 
+            updateStatus.Add(1, playerID);
+            updateStatus.Add(2, spawnNumber);
+            updateStatus.Add(3, playerName);
+                        
             // if encryption is turned off, we simply use OpRaiseEvent
             peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable, (byte)0);                                                               
-        }
-        
+        }        
         #endregion
     }
 }
