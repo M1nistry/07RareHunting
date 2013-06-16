@@ -35,8 +35,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.stripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.spawnDGV = new System.Windows.Forms.DataGridView();
             this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -61,9 +59,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stripLabel,
-            this.toolStripStatusLabel1,
-            this.stripProgressBar});
+            this.stripLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 518);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(272, 22);
@@ -75,22 +71,6 @@
             this.stripLabel.Name = "stripLabel";
             this.stripLabel.Size = new System.Drawing.Size(55, 17);
             this.stripLabel.Text = "In-Active";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Enabled = false;
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel1.Text = "|";
-            this.toolStripStatusLabel1.ToolTipText = "|";
-            // 
-            // stripProgressBar
-            // 
-            this.stripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.stripProgressBar.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
-            this.stripProgressBar.Name = "stripProgressBar";
-            this.stripProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // spawnDGV
             // 
@@ -109,7 +89,7 @@
             this.SpawnNumber,
             this.Occupied,
             this.Names});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -397,7 +377,7 @@
             // 
             // activeTimer
             // 
-            this.activeTimer.Interval = 1000;
+            this.activeTimer.Interval = 500;
             this.activeTimer.Tick += new System.EventHandler(this.activeTimer_Tick);
             // 
             // Form1
@@ -432,11 +412,9 @@
         #endregion
 
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar stripProgressBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button updateButton;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolTip tT;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         public System.Windows.Forms.CheckBox activeCheck;

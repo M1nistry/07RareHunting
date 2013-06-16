@@ -28,15 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.alwaysNameText = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.flashRadio = new System.Windows.Forms.RadioButton();
-            this.frontRadio = new System.Windows.Forms.RadioButton();
             this.ontopCheck = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.tTip = new System.Windows.Forms.ToolTip(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -47,6 +50,7 @@
             this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Always use this name:";
+            this.tTip.SetToolTip(this.label1, "Prefill the name box with this specified name");
             // 
             // alwaysNameText
             // 
@@ -54,6 +58,7 @@
             this.alwaysNameText.Name = "alwaysNameText";
             this.alwaysNameText.Size = new System.Drawing.Size(100, 20);
             this.alwaysNameText.TabIndex = 1;
+            this.tTip.SetToolTip(this.alwaysNameText, "Prefill the name box with this specified name");
             // 
             // saveButton
             // 
@@ -77,44 +82,10 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(9, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Periodic Check:";
-            // 
-            // flashRadio
-            // 
-            this.flashRadio.AutoSize = true;
-            this.flashRadio.Enabled = false;
-            this.flashRadio.Location = new System.Drawing.Point(126, 44);
-            this.flashRadio.Name = "flashRadio";
-            this.flashRadio.Size = new System.Drawing.Size(89, 17);
-            this.flashRadio.TabIndex = 5;
-            this.flashRadio.TabStop = true;
-            this.flashRadio.Text = "Taskbar flash";
-            this.flashRadio.UseVisualStyleBackColor = true;
-            // 
-            // frontRadio
-            // 
-            this.frontRadio.AutoSize = true;
-            this.frontRadio.Enabled = false;
-            this.frontRadio.Location = new System.Drawing.Point(126, 68);
-            this.frontRadio.Name = "frontRadio";
-            this.frontRadio.Size = new System.Drawing.Size(85, 17);
-            this.frontRadio.TabIndex = 6;
-            this.frontRadio.TabStop = true;
-            this.frontRadio.Text = "Bring to front";
-            this.frontRadio.UseVisualStyleBackColor = true;
-            // 
             // ontopCheck
             // 
             this.ontopCheck.AutoSize = true;
-            this.ontopCheck.Location = new System.Drawing.Point(126, 91);
+            this.ontopCheck.Location = new System.Drawing.Point(126, 37);
             this.ontopCheck.Name = "ontopCheck";
             this.ontopCheck.Size = new System.Drawing.Size(15, 14);
             this.ontopCheck.TabIndex = 8;
@@ -123,11 +94,49 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 91);
+            this.label3.Location = new System.Drawing.Point(9, 37);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Always on top:";
+            this.tTip.SetToolTip(this.label3, "Make the main form always on top");
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 72);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Contact:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(123, 72);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Ministry@live.com.au";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(130, 90);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(100, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "_M1nistry @ Reddit";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Enabled = false;
+            this.label6.Location = new System.Drawing.Point(198, 115);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "v1.0";
             // 
             // Options
             // 
@@ -135,11 +144,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(240, 166);
             this.ControlBox = false;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ontopCheck);
-            this.Controls.Add(this.frontRadio);
-            this.Controls.Add(this.flashRadio);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.alwaysNameText);
@@ -160,10 +170,12 @@
         private System.Windows.Forms.TextBox alwaysNameText;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton flashRadio;
-        private System.Windows.Forms.RadioButton frontRadio;
         private System.Windows.Forms.CheckBox ontopCheck;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolTip tTip;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }

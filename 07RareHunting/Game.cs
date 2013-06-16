@@ -55,11 +55,11 @@ namespace _07RareHunting
         public Player LocalPlayer = new Player(0);
 
         // networking / timing related settings
-        internal int intervalDispatch = 500; // interval between DispatchIncomingCommands() calls
+        internal int intervalDispatch = 2000; // interval between DispatchIncomingCommands() calls
         private int lastDispatch = Environment.TickCount;
-        internal int intervalSend = 500; // interval between SendOutgoingCommands() calls
+        internal int intervalSend = 2000; // interval between SendOutgoingCommands() calls
         private int lastSend = Environment.TickCount;
-        internal int intervalMove = 500; // interval for auto-movement - each movement creates an OpRaiseEvent
+        internal int intervalMove = 2000; // interval for auto-movement - each movement creates an OpRaiseEvent
         private int lastMove = Environment.TickCount;
 
         public delegate void DebugOutputDelegate(string debug);

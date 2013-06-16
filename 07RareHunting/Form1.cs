@@ -37,6 +37,7 @@ namespace _07RareHunting
         public string messages;
 
         public List<string> ClientIDs = new List<string>();
+        //public List<KeyValuePair<int, string>> ClientIDs = new List<KeyValuePair<int, string>>();
 
         DateTime EndOfTime;
 
@@ -49,6 +50,9 @@ namespace _07RareHunting
             this.GameInstance.Connect();
 
             this.GameInstance.form1 = this;
+
+            nameBox.Text = Properties.Settings.Default.permName;
+            TopMost = Properties.Settings.Default.alwaysOnTop;
 
             // most of the Photon specific code is wrapped by the Game class
 
@@ -70,7 +74,7 @@ namespace _07RareHunting
         private void updateButton_Click(object sender, EventArgs e)
         {
             //If the person is marked as active, update to the server with the supplied information.
-            if (activeCheck.Checked && !spawnCombo.Text.Equals(null) && !nameBox.Text.Equals(null))
+            if (activeCheck.Checked && !nameBox.Text.Equals(""))
             {
                 GameInstance.NumberSpawn = spawnCombo.Text;
                 GameInstance.NameSpawn = nameBox.Text;
@@ -82,7 +86,10 @@ namespace _07RareHunting
             else
             {
                 stripLabel.Text = "In-Active";
+                MessageBox.Show("Please fill out your character name and tick the active box");
             }
+
+         
         }
 
         public void DebugReturn(string debug)
@@ -95,34 +102,46 @@ namespace _07RareHunting
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
             GameInstance.Disconnect();
+            Properties.Settings.Default.Save();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void update_table()
         {
-            if (!GameInstance.IncomingData[0].Equals(null)) {
-            Console.WriteLine("Value: " + spawnDGV.Rows[0].Cells[0].Value);
-            Console.WriteLine("Game: " + GameInstance.IncomingData[0].Spawn);
+            if (!GameInstance.IncomingData[0].Equals(null))
+            {
+                Console.WriteLine("Value: " + spawnDGV.Rows[0].Cells[0].Value);
+                Console.WriteLine("Game: " + GameInstance.IncomingData[0].Spawn);
                 for (int i = 0; i < spawnDGV.Rows.Count; i++)
                 {
                     if (spawnDGV.Rows[i].Cells[0].Value.ToString().Equals(GameInstance.IncomingData[0].Spawn) && !ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID))
                     {
                         Console.WriteLine("We're in!");
                         spawnDGV.Rows[i].Cells[2].Value += GameInstance.IncomingData[0].Name + ", ";
-                        ClientIDs.Add(GameInstance.IncomingData[0].PlayerID);                        
+                        spawnDGV.Rows[Convert.ToInt32(spawnCombo.Text)].Cells[2].Value += nameBox.Text + ", ";
+                        ClientIDs.Add(GameInstance.IncomingData[0].PlayerID);
                     }
                     else
                         if (ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID))
                         {
-                            spawnDGV.Rows[i].Cells[0].Value.ToString().Contains(GameInstance.IncomingData[0].Name + ", ");
+                            if (spawnDGV.Rows[i].Cells[0].Value.ToString().Contains(GameInstance.IncomingData[0].Name + ", "))
+                            {
+                                spawnDGV.Rows[i].Cells[0].Value.Equals("");
+                                ClientIDs.Remove(GameInstance.IncomingData[0].PlayerID);
+                            }
                         }
 
                     //Sets the checkbox to checked if there is a name in that row.
-                    //if (!spawnDGV.Rows[i].Cells[2].Value.Equals(null))
+                    //if (!spawnDGV.Rows[i].Cells[2].Value.Equals(""))
                     //{
                     //    spawnDGV.Rows[i].Cells[1].Value.Equals(true);
                     //}
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            update_table();
         }
 
         private void optionsButton_Click(object sender, EventArgs e)
@@ -146,6 +165,7 @@ namespace _07RareHunting
             else
             {
                 activeTimer.Stop();
+                activeCheck.Checked = false;
                 timerLabel.Text = "0:00";
                 ActiveAlert();
             }
@@ -155,6 +175,12 @@ namespace _07RareHunting
         {
             var helper = new FlashWindowHelper();
             helper.FlashApplicationWindow(); 
+        }
+
+        public void UpdateStatus()
+        {
+            nameBox.Text = Properties.Settings.Default.permName;
+            TopMost = Properties.Settings.Default.alwaysOnTop;
         }
         
     }
