@@ -38,11 +38,11 @@ namespace _07RareHunting
         public string NameSpawn = "";
         public string NumberSpawn = "";
 
-        public List<object> IncomingData = new List<object>(); 
+        public List<Data> IncomingData = new List<Data>(); 
 
         private readonly Thread updateThread;        
 
-        public string ServerAddress = "127.0.0.1:5055";	// this must be replaced with an IP of your server  in form of: "ip:port"
+        public string ServerAddress = "115.64.233.52:5055";	// this must be replaced with an IP of your server  in form of: "ip:port"
         public ConnectionProtocol protocol = ConnectionProtocol.Udp;                     // Photon can use UDP (default) or TCP as underlying protocol
         public string GameId = "realtimeDemoGame000";   // Name of the room this demo joins. Used in other SDKs as well
 
@@ -351,23 +351,22 @@ namespace _07RareHunting
                     break;
                 case 1:
                     //This case statement receives the other clients data and saves it
-                    Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;
-                    
-                    //foreach (DictionaryEntry entry in evData)
-                    //{
+                    Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;                    
                     Data TableData = new Data
                         {
                             PlayerID = evData[1].ToString(),
                             Spawn = evData[2].ToString(),
                             Name = evData[3].ToString()                                
                         };
-                    IncomingData.Add(TableData);
-                        //Console.WriteLine("{0}, {1}", entry.Key, entry.Value);                        
-                    //}
-                    Console.WriteLine("PlayerID: " + IncomingData[0]);
-                    Console.WriteLine("Spawn: " + IncomingData[1]);
-                    Console.WriteLine("Name: " + IncomingData[2]);
+
+                    IncomingData.Insert(0,TableData);
                     
+                    
+                    //Console.WriteLine("PlayerID: " + IncomingData[0].PlayerID);
+                    //Console.WriteLine("Spawn: " + IncomingData[0].Spawn);
+                    //Console.WriteLine("Name: " + IncomingData[0].Name);
+                    //Console.WriteLine("-------");
+                    //Console.WriteLine("Count: " + IncomingData.Count);
                     break;
             }
         }

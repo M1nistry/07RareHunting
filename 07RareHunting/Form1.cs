@@ -11,6 +11,8 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace _07RareHunting
 {
     using System;
@@ -33,6 +35,10 @@ namespace _07RareHunting
         private int intervalUpdate = 5; // interval in which the gameloop is called
 
         public string messages;
+
+        public List<string> ClientIDs = new List<string>();
+
+        DateTime EndOfTime;
 
         public Form1()
         {
@@ -68,6 +74,14 @@ namespace _07RareHunting
             {
                 GameInstance.NumberSpawn = spawnCombo.Text;
                 GameInstance.NameSpawn = nameBox.Text;
+                EndOfTime = DateTime.Now.AddMinutes(5);
+                activeTimer.Enabled = true;
+                activeTimer.Start();
+                stripLabel.Text = "Active";
+            }
+            else
+            {
+                stripLabel.Text = "In-Active";
             }
         }
 
@@ -82,5 +96,66 @@ namespace _07RareHunting
         {
             GameInstance.Disconnect();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!GameInstance.IncomingData[0].Equals(null)) {
+            Console.WriteLine("Value: " + spawnDGV.Rows[0].Cells[0].Value);
+            Console.WriteLine("Game: " + GameInstance.IncomingData[0].Spawn);
+                for (int i = 0; i < spawnDGV.Rows.Count; i++)
+                {
+                    if (spawnDGV.Rows[i].Cells[0].Value.ToString().Equals(GameInstance.IncomingData[0].Spawn) && !ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID))
+                    {
+                        Console.WriteLine("We're in!");
+                        spawnDGV.Rows[i].Cells[2].Value += GameInstance.IncomingData[0].Name + ", ";
+                        ClientIDs.Add(GameInstance.IncomingData[0].PlayerID);                        
+                    }
+                    else
+                        if (ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID))
+                        {
+                            spawnDGV.Rows[i].Cells[0].Value.ToString().Contains(GameInstance.IncomingData[0].Name + ", ");
+                        }
+
+                    //Sets the checkbox to checked if there is a name in that row.
+                    //if (!spawnDGV.Rows[i].Cells[2].Value.Equals(null))
+                    //{
+                    //    spawnDGV.Rows[i].Cells[1].Value.Equals(true);
+                    //}
+                }
+            }
+        }
+
+        private void optionsButton_Click(object sender, EventArgs e)
+        {
+            Options frmOptions = new Options();
+            frmOptions.Show();
+        }
+
+        private void activeTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateTimer();       
+        }
+
+        private void UpdateTimer()
+        {                
+                TimeSpan TimeString = (EndOfTime - DateTime.Now);
+            if (TimeString.Seconds != -01)
+            {
+                timerLabel.Text = String.Format("{0:m\\:ss}", TimeString);
+            }
+            else
+            {
+                activeTimer.Stop();
+                timerLabel.Text = "0:00";
+                ActiveAlert();
+            }
+        }
+
+        private void ActiveAlert()
+        {
+            var helper = new FlashWindowHelper();
+            helper.FlashApplicationWindow(); 
+        }
+        
     }
 }

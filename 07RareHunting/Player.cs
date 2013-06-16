@@ -111,9 +111,9 @@ namespace _07RareHunting
 
             var updateStatus = new Hashtable();
 
-            updateStatus.Add(1, "playerID");
-            updateStatus.Add(2, "spawnNumber");
-            updateStatus.Add(3, "playerName");
+            updateStatus.Add(1, playerID);
+            updateStatus.Add(2, spawnNumber);
+            updateStatus.Add(3, playerName);
                         
             // if encryption is turned off, we simply use OpRaiseEvent
             peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable, (byte)0);                                                               

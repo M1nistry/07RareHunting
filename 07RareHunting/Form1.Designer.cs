@@ -29,12 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.spawnDGV = new System.Windows.Forms.DataGridView();
+            this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Names = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,10 +49,11 @@
             this.updateButton = new System.Windows.Forms.Button();
             this.tT = new System.Windows.Forms.ToolTip(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Names = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.optionsButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.timerLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.activeTimer = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).BeginInit();
             this.SuspendLayout();
@@ -102,11 +109,58 @@
             this.SpawnNumber,
             this.Occupied,
             this.Names});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.spawnDGV.DefaultCellStyle = dataGridViewCellStyle2;
+            this.spawnDGV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.spawnDGV.GridColor = System.Drawing.SystemColors.ActiveBorder;
             this.spawnDGV.Location = new System.Drawing.Point(0, 0);
+            this.spawnDGV.MultiSelect = false;
             this.spawnDGV.Name = "spawnDGV";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.spawnDGV.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.spawnDGV.RowHeadersVisible = false;
+            this.spawnDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.spawnDGV.Size = new System.Drawing.Size(272, 418);
+            this.spawnDGV.StandardTab = true;
             this.spawnDGV.TabIndex = 1;
+            this.spawnDGV.TabStop = false;
+            // 
+            // SpawnNumber
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SpawnNumber.DefaultCellStyle = dataGridViewCellStyle1;
+            this.SpawnNumber.FillWeight = 60.9137F;
+            this.SpawnNumber.HeaderText = "Spawn";
+            this.SpawnNumber.Name = "SpawnNumber";
+            this.SpawnNumber.ReadOnly = true;
+            this.SpawnNumber.ToolTipText = "Spawn number from list";
+            // 
+            // Occupied
+            // 
+            this.Occupied.FillWeight = 64.34736F;
+            this.Occupied.HeaderText = "Occupied";
+            this.Occupied.Name = "Occupied";
+            this.Occupied.ReadOnly = true;
+            // 
+            // Names
+            // 
+            this.Names.FillWeight = 174.7389F;
+            this.Names.HeaderText = "Names";
+            this.Names.Name = "Names";
+            this.Names.ReadOnly = true;
+            this.Names.ToolTipText = "Names of characters currently at this location";
             // 
             // label1
             // 
@@ -139,6 +193,7 @@
             // spawnCombo
             // 
             this.spawnCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.spawnCombo.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.spawnCombo.FormattingEnabled = true;
             this.spawnCombo.Items.AddRange(new object[] {
             "1",
@@ -247,8 +302,21 @@
             "104",
             "105",
             "106",
-            "107"});
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119"});
             this.spawnCombo.Location = new System.Drawing.Point(56, 454);
+            this.spawnCombo.MaxDropDownItems = 15;
             this.spawnCombo.Name = "spawnCombo";
             this.spawnCombo.Size = new System.Drawing.Size(100, 21);
             this.spawnCombo.TabIndex = 5;
@@ -260,9 +328,9 @@
             this.activeCheck.AutoSize = true;
             this.activeCheck.Location = new System.Drawing.Point(172, 429);
             this.activeCheck.Name = "activeCheck";
-            this.activeCheck.Size = new System.Drawing.Size(62, 17);
+            this.activeCheck.Size = new System.Drawing.Size(56, 17);
             this.activeCheck.TabIndex = 6;
-            this.activeCheck.Text = "Active?";
+            this.activeCheck.Text = "Active";
             this.tT.SetToolTip(this.activeCheck, "Check if you\'re actively camping");
             this.activeCheck.UseVisualStyleBackColor = true;
             // 
@@ -284,31 +352,6 @@
             this.notifyIcon1.Text = "Runescape Rare Spawn Tool";
             this.notifyIcon1.Visible = true;
             // 
-            // SpawnNumber
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.SpawnNumber.DefaultCellStyle = dataGridViewCellStyle4;
-            this.SpawnNumber.FillWeight = 60.9137F;
-            this.SpawnNumber.HeaderText = "Spawn";
-            this.SpawnNumber.Name = "SpawnNumber";
-            this.SpawnNumber.ReadOnly = true;
-            this.SpawnNumber.ToolTipText = "Spawn number from list";
-            // 
-            // Occupied
-            // 
-            this.Occupied.FillWeight = 64.34736F;
-            this.Occupied.HeaderText = "Occupied";
-            this.Occupied.Name = "Occupied";
-            this.Occupied.ReadOnly = true;
-            // 
-            // Names
-            // 
-            this.Names.FillWeight = 174.7389F;
-            this.Names.HeaderText = "Names";
-            this.Names.Name = "Names";
-            this.Names.ReadOnly = true;
-            this.Names.ToolTipText = "Names of characters currently at this location";
-            // 
             // optionsButton
             // 
             this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -318,6 +361,44 @@
             this.optionsButton.TabIndex = 8;
             this.optionsButton.Text = "Options";
             this.optionsButton.UseVisualStyleBackColor = true;
+            this.optionsButton.Click += new System.EventHandler(this.optionsButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(197, 395);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // timerLabel
+            // 
+            this.timerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.timerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timerLabel.Location = new System.Drawing.Point(101, 482);
+            this.timerLabel.Name = "timerLabel";
+            this.timerLabel.Size = new System.Drawing.Size(55, 18);
+            this.timerLabel.TabIndex = 170;
+            this.timerLabel.Text = "0:00";
+            this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tT.SetToolTip(this.timerLabel, "Time until active check");
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 486);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 171;
+            this.label3.Text = "Active for:";
+            // 
+            // activeTimer
+            // 
+            this.activeTimer.Interval = 1000;
+            this.activeTimer.Tick += new System.EventHandler(this.activeTimer_Tick);
             // 
             // Form1
             // 
@@ -325,6 +406,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(272, 540);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.timerLabel);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.optionsButton);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.activeCheck);
@@ -334,6 +418,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.spawnDGV);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Runescape Rare Spawn Tool";
             this.statusStrip1.ResumeLayout(false);
@@ -363,6 +448,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Names;
         public System.Windows.Forms.DataGridView spawnDGV;
         private System.Windows.Forms.Button optionsButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label timerLabel;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Timer activeTimer;
 
     }
 }
