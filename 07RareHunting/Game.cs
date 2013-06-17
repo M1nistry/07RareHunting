@@ -205,6 +205,7 @@ namespace _07RareHunting
             {
                 case StatusCode.Connect:
                     this.DebugReturn("Connect(ed)");
+                    
                     this.JoinRandomWithLobby();
                     break;
                 case StatusCode.Disconnect:
@@ -453,7 +454,7 @@ namespace _07RareHunting
         // This is only used by the game / application, not by the Photon library
         public void DebugReturn(string debug)
         {
-            Console.WriteLine("Debug: " + debug);
+            //Console.WriteLine("Debug: " + debug);
         }
 
         #endregion

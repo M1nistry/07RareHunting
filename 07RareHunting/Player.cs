@@ -76,6 +76,8 @@ namespace _07RareHunting
         {
             this.playerID = actorNr;
 
+            Properties.Settings.Default.clientID = playerID.ToString();
+
             this.form1 = form1;
             
             // we create the local player as actornumber 0. this is not used (ever) in a room. random init is only for "our" player:

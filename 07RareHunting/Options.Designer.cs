@@ -40,6 +40,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.clientIDLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -138,12 +140,31 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "v1.0";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 115);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(85, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Your ClientID is: ";
+            // 
+            // clientIDLabel
+            // 
+            this.clientIDLabel.AutoSize = true;
+            this.clientIDLabel.Location = new System.Drawing.Point(93, 115);
+            this.clientIDLabel.Name = "clientIDLabel";
+            this.clientIDLabel.Size = new System.Drawing.Size(0, 13);
+            this.clientIDLabel.TabIndex = 15;
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(240, 166);
             this.ControlBox = false;
+            this.Controls.Add(this.clientIDLabel);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -177,5 +198,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Label clientIDLabel;
     }
 }

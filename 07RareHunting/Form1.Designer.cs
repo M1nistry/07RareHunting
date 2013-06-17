@@ -1,4 +1,6 @@
-﻿namespace _07RareHunting
+﻿using System.ComponentModel;
+
+namespace _07RareHunting
 {
     partial class Form1
     {
@@ -35,6 +37,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.spawnDGV = new System.Windows.Forms.DataGridView();
             this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -46,12 +49,13 @@
             this.activeCheck = new System.Windows.Forms.CheckBox();
             this.updateButton = new System.Windows.Forms.Button();
             this.tT = new System.Windows.Forms.ToolTip(this.components);
+            this.timerLabel = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.optionsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.timerLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.activeTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripConnection = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +63,9 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stripLabel});
+            this.stripLabel,
+            this.toolStripStatusLabel1,
+            this.toolStripConnection});
             this.statusStrip1.Location = new System.Drawing.Point(0, 518);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(272, 22);
@@ -71,6 +77,13 @@
             this.stripLabel.Name = "stripLabel";
             this.stripLabel.Size = new System.Drawing.Size(55, 17);
             this.stripLabel.Text = "In-Active";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel1.Text = "|";
             // 
             // spawnDGV
             // 
@@ -294,7 +307,20 @@
             "116",
             "117",
             "118",
-            "119"});
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128",
+            "129",
+            "130",
+            "131",
+            "132"});
             this.spawnCombo.Location = new System.Drawing.Point(56, 454);
             this.spawnCombo.MaxDropDownItems = 15;
             this.spawnCombo.Name = "spawnCombo";
@@ -326,6 +352,18 @@
             this.updateButton.UseVisualStyleBackColor = true;
             this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
             // 
+            // timerLabel
+            // 
+            this.timerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.timerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timerLabel.Location = new System.Drawing.Point(101, 482);
+            this.timerLabel.Name = "timerLabel";
+            this.timerLabel.Size = new System.Drawing.Size(55, 18);
+            this.timerLabel.TabIndex = 170;
+            this.timerLabel.Text = "0:00";
+            this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tT.SetToolTip(this.timerLabel, "Time until active check");
+            // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipTitle = "OSRS Rare spawn tool";
@@ -353,18 +391,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // timerLabel
-            // 
-            this.timerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.timerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timerLabel.Location = new System.Drawing.Point(101, 482);
-            this.timerLabel.Name = "timerLabel";
-            this.timerLabel.Size = new System.Drawing.Size(55, 18);
-            this.timerLabel.TabIndex = 170;
-            this.timerLabel.Text = "0:00";
-            this.timerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.tT.SetToolTip(this.timerLabel, "Time until active check");
-            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -379,6 +405,12 @@
             // 
             this.activeTimer.Interval = 500;
             this.activeTimer.Tick += new System.EventHandler(this.activeTimer_Tick);
+            // 
+            // toolStripConnection
+            // 
+            this.toolStripConnection.Name = "toolStripConnection";
+            this.toolStripConnection.Size = new System.Drawing.Size(78, 17);
+            this.toolStripConnection.Text = "Connecting...";
             // 
             // Form1
             // 
@@ -401,6 +433,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Runescape Rare Spawn Tool";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_Closing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).EndInit();
@@ -411,7 +444,6 @@
 
         #endregion
 
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button updateButton;
@@ -430,6 +462,9 @@
         private System.Windows.Forms.Label timerLabel;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Timer activeTimer;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        public System.Windows.Forms.ToolStripStatusLabel toolStripConnection;
+        public System.Windows.Forms.StatusStrip statusStrip1;
 
     }
 }

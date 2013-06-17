@@ -46,5 +46,17 @@ namespace _07RareHunting.Properties {
                 this["alwaysOnTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string clientID {
+            get {
+                return ((string)(this["clientID"]));
+            }
+            set {
+                this["clientID"] = value;
+            }
+        }
     }
 }

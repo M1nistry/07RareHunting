@@ -77,12 +77,13 @@ namespace _07RareHunting
             {
                 case StatusCode.Connect:
                     this.DebugReturn("Connect(ed)");
+                    form.toolStripConnection.Text = "Connected";
                     this.peer.OpJoin(this.lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
                    
                     break;
                 case StatusCode.Disconnect:
                     this.DebugReturn("Disconnect(ed) Peer.state: " + peer.PeerState);
-                    
+                    form.toolStripConnection.Text = "Disconnected";
                     this.timer = null;
                     break;
                 case StatusCode.ExceptionOnConnect:
