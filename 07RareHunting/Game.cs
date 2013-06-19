@@ -332,7 +332,6 @@ namespace _07RareHunting
                                     evData[3].ToString()
                                     );
                                 playerDB.Add(NewPlayer);
-
                             }
                         }
                     }
