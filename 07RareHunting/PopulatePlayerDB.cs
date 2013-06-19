@@ -7,10 +7,7 @@ namespace _07RareHunting
 {
     public class PopulatePlayerDB
     {
-        private List<PlayerDB> playerDB;
-
-//Is this even needed for this app?
-        private DateTime LastUpdateCache;
+        public List<PlayerDB> playerDB;
 
         public PopulatePlayerDB()
         {
@@ -18,32 +15,42 @@ namespace _07RareHunting
         }
 
         //Update DB with current JSON data
-        private void Add(PlayerDB newPlayerData)
+        public void Add(PlayerDB newPlayerData)
         {
-            //Iterate through the current PlayerDB to see if newPlayerData is found
+            for (int i = 0; i < playerDB.Count; i++)
+            {
+                if (playerDB[i].GetPlayerID().Contains(newPlayerData.GetPlayerID()) )
+                {
+                    return;
+                }                            
+            }
 
-            //If found call update or disregard?
-
-            //If not add player
+            playerDB.Add(newPlayerData);
         }
 
         public void Update(PlayerDB newPlayerData)
         {
-            //Iterate through playerDB.
-
-            //If the newPlayerData maches an account already in the database update its information
-
-            //If its not found add it?
+            for (int i = 0; i < playerDB.Count; i++)
+            {
+                if (playerDB[i].GetPlayerID().Contains(newPlayerData.GetPlayerID()))
+                {
+                    playerDB[i].GetPlayerName().Equals(newPlayerData.GetPlayerID());
+                    playerDB[i].GetSpawn().Equals(newPlayerData.GetSpawn());
+                }
+                else return;
+            }            
         }
 
-        public void Delete()
+        public void Delete(PlayerDB newPlayerData)
         {
-            //Iterate through the playerDB.
-
-            //If the newPlayerData is found it should be .Remove()d
-
-            //Sort the DB after removal.
-            playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
+            for (int i = 0; i < playerDB.Count; i++)
+            {
+                if ( playerDB[i].GetPlayerID().Equals(newPlayerData.GetPlayerID()) )
+                {
+                    playerDB.RemoveAt(i);
+                }
+            }
+            //playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
         }
 
         public List<PlayerDB> GetPlayerDB()

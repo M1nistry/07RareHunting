@@ -36,8 +36,8 @@ namespace _07RareHunting
         public Form1 form1;
 
         public string NameSpawn = "";
-        public string NumberSpawn = "";
-        public List<PlayerDB> playerDB = new List<PlayerDB>(); 
+        public int NumberSpawn;
+        public PopulatePlayerDB playerDB; 
 
         public List<Data> IncomingData = new List<Data>(); 
 
@@ -205,16 +205,16 @@ namespace _07RareHunting
             switch (returnCode)
             {
                 case StatusCode.Connect:
-                    this.DebugReturn("Connect(ed)");
-                    
+                    this.DebugReturn("Connect(ed)");                    
                     this.JoinRandomWithLobby();
+                    playerDB = new PopulatePlayerDB();
                     break;
                 case StatusCode.Disconnect:
                     this.DebugReturn("Disconnect(ed) Peer.state: " + this.Peer.PeerState);
                     this.LocalPlayer.playerID = 0;
-                    lock (this.Players)
+                    lock (Players)
                     {
-                    this.Players.Clear();
+                        Players.Clear();
                     }
                     break;
                 case StatusCode.ExceptionOnConnect:
@@ -228,6 +228,7 @@ namespace _07RareHunting
                     {
                     this.Players.Clear();
                     }
+
                     break;
                 case StatusCode.Exception:
                     this.DebugReturn("Exception. Peer.state: " + this.Peer.PeerState);
@@ -296,9 +297,7 @@ namespace _07RareHunting
         // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnEvent(EventData photonEvent)
         {
-            StatusCode statuS = new StatusCode();
-            //debug output is OK for all but the most rapidly sent events (in our case: EV_MOVE)
-
+            
             this.DebugReturn("OnEvent() " + photonEvent.ToStringFull());
 
             int actorNr = (int)photonEvent[(byte)LiteEventKey.ActorNr];
@@ -312,10 +311,6 @@ namespace _07RareHunting
             switch (photonEvent.Code)
             {
                 case (byte)LiteEventCode.Join:
-                    // Event is defined by Lite. A peer entered the room. It could be this peer!
-                    // This event provides the current list of actors and a actorNumber of the player who is new.
-
-                    // get the list of current players and check it against local list - create any that's not yet there
                     int[] actorsInGame = (int[])photonEvent[(byte)LiteEventKey.ActorList];
                     lock (this.Players)
                     {
@@ -326,24 +321,25 @@ namespace _07RareHunting
                                 this.Players[i] = new Player(i);
 
                                 //Add a new player to the PlayerDB list.
-                                PlayerDB NewPlayer = new PlayerDB(
-                                    evData[1].ToString(),
-                                    evData[2].ToString(),
-                                    evData[3].ToString()
-                                    );
-                                playerDB.Add(NewPlayer);
+                                Console.WriteLine("Connected and adding a player to the DB!");
+                               //playerDB.Add(new PlayerDB(evData[1].ToString(),evData[2].ToString(), evData[3].ToString()));
                             }
                         }
                     }
-
-                    this.LocalPlayer.SendPlayerInfo(this.Peer); // the new peers does not have our info, so send it again
+                    this.LocalPlayer.SendPlayerInfo(this.Peer);
                     break;
 
-                case (byte)LiteEventCode.Leave:
-                    // Event is defined by Lite. Someone left the room.
+                case (byte)Player.DemoEventCode.PlayerMove:
+                    Console.WriteLine("dghjf");
+                    //This case statement receives the other clients data and saves it             
+                    playerDB.Update(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
+                    break;
+
+                case (byte)LiteEventCode.Leave:                  
                     lock (this.Players)
                     {
                         this.Players.Remove(actorNr);
+                        playerDB.Delete(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
                     }
                     break;
 
@@ -356,30 +352,12 @@ namespace _07RareHunting
                     }
                     else
                     {
-                        this.DebugReturn("did not find player to set info: " + actorNr);
+                        DebugReturn("did not find player to set info: " + actorNr);
                     }
 
-                    this.PrintPlayers();
+                    PrintPlayers();
                     break;
-                case 1:
-                    //This case statement receives the other clients data and saves it
-                    //Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;                    
-                    Data TableData = new Data
-                        {
-                            PlayerID = evData[1].ToString(),
-                            Spawn = evData[2].ToString(),
-                            Name = evData[3].ToString()                                
-                        };
-
-                    IncomingData.Insert(0,TableData);
-                    
-                    
-                    //Console.WriteLine("PlayerID: " + IncomingData[0].PlayerID);
-                    //Console.WriteLine("Spawn: " + IncomingData[0].Spawn);
-                    //Console.WriteLine("Name: " + IncomingData[0].Name);
-                    //Console.WriteLine("-------");
-                    //Console.WriteLine("Count: " + IncomingData.Count);
-                    break;
+                
             }
         }
 
@@ -465,7 +443,7 @@ namespace _07RareHunting
         // This is only used by the game / application, not by the Photon library
         public void DebugReturn(string debug)
         {
-            //Console.WriteLine("Debug: " + debug);
+            Console.WriteLine("Debug: " + debug);
         }
 
         #endregion

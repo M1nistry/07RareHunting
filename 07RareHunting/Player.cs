@@ -107,18 +107,20 @@ namespace _07RareHunting
             this.name = (string)customEventContent[(byte)DemoEventKey.PlayerName];
         }
 
-        public void SendEvMove(LitePeer peer, string spawnNumber, string playerName)
+        public void SendEvMove(LitePeer peer, int spawnNumber, string spawnName)
         {
             if (peer == null) return;
+         
 
             var updateStatus = new Hashtable();
 
             updateStatus.Add(1, playerID);
             updateStatus.Add(2, spawnNumber);
-            updateStatus.Add(3, playerName);
                         
             // if encryption is turned off, we simply use OpRaiseEvent
-            peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable, (byte)0);                                                               
+            Console.WriteLine("We're here");
+            peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable);
+
         }        
         #endregion
     }

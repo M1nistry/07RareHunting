@@ -26,6 +26,7 @@ namespace _07RareHunting
 
         public string messages;
         public List<string> ClientIDs = new List<string>();
+        private PopulatePlayerDB playerDB;
         //public List<KeyValuePair<int, string>> ClientIDs = new List<KeyValuePair<int, string>>();
 
         DateTime EndOfTime;
@@ -65,7 +66,7 @@ namespace _07RareHunting
             //If the person is marked as active, update to the server with the supplied information.
             if (activeCheck.Checked && !nameBox.Text.Equals(""))
             {
-                GameInstance.NumberSpawn = spawnCombo.Text;
+                GameInstance.NumberSpawn = Convert.ToInt32(spawnCombo.Text);
                 GameInstance.NameSpawn = nameBox.Text;
                 EndOfTime = DateTime.Now.AddMinutes(5);
                 activeTimer.Enabled = true;
@@ -130,7 +131,8 @@ namespace _07RareHunting
 
         private void button1_Click(object sender, EventArgs e)
         {
-            update_table();
+            spawnDGV.DataSource = playerDB;
+            //update_table();
         }
 
         private void optionsButton_Click(object sender, EventArgs e)

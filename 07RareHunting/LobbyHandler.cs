@@ -70,29 +70,29 @@ namespace _07RareHunting
 
         public void OnStatusChanged(StatusCode statusCode)
         {
-            DebugReturn("OnStatusChanged():" + (StatusCode)statusCode);
+            DebugReturn("OnStatusChanged():" + statusCode);
 
             //handle returnCodes for connect, disconnect and errors (non-operations)
             switch ((StatusCode)statusCode)
             {
                 case StatusCode.Connect:
-                    this.DebugReturn("Connect(ed)");
+                    this.DebugReturn("Connected");
                     form.toolStripConnection.Text = "Connected";
                     this.peer.OpJoin(this.lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
                    
                     break;
                 case StatusCode.Disconnect:
-                    this.DebugReturn("Disconnect(ed) Peer.state: " + peer.PeerState);
+                    this.DebugReturn("Disconnected Peer.state: " + peer.PeerState);
                     form.toolStripConnection.Text = "Disconnected";
                     this.timer = null;
                     break;
                 case StatusCode.ExceptionOnConnect:
-                    this.DebugReturn("ExceptionOnConnect(ed) Peer.state: " + peer.PeerState);
+                    this.DebugReturn("ExceptionOnConnected Peer.state: " + peer.PeerState);
                     
                     this.timer = null;
                     break;
                 case StatusCode.Exception:
-                    this.DebugReturn("Exception(ed) Peer.state: " + peer.PeerState);
+                    this.DebugReturn("Exceptioned Peer.state: " + peer.PeerState);
                     this.timer = null;
                     break;
                 default:
