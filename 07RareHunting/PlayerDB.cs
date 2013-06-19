@@ -24,5 +24,35 @@ namespace _07RareHunting
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
         }
+
+        public string GetPlayerID()
+        {
+            return this.PlayerID;
+        }
+
+        public string GetSpawn()
+        {
+            return this.Spawn;
+        }
+
+        public string GetPlayerName()
+        {
+            return this.PlayerName;
+        }
+
+        public void SetPlayerID(string playerID)
+        {
+            this.PlayerID = playerID;
+        }
+
+        public void SetSpawn(string spawn)
+        {
+            this.Spawn = spawn;
+        }
+
+        public void SetPlayerName(string playername)
+        {
+            this.PlayerName = playername;
+        }
     }
 }
