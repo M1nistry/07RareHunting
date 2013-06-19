@@ -52,16 +52,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExitGamesLibs">
-      <HintPath>..\..\..\..\..\..\..\Photon\lib\ExitGamesLibs.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\PhotonRebase\lib\ExitGamesLibs.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer">
-      <HintPath>..\..\..\..\..\..\..\Photon\lib\Photon.SocketServer.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\PhotonRebase\lib\Photon.SocketServer.dll</HintPath>
     </Reference>
     <Reference Include="Photon3DotNet">
-      <HintPath>..\..\..\..\..\..\..\Photon\lib\Photon3DotNet.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\PhotonRebase\lib\Photon3DotNet.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\..\..\..\..\Photon\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\PhotonRebase\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationCore" />

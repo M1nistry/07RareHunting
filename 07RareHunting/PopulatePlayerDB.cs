@@ -45,5 +45,15 @@ namespace _07RareHunting
             //Sort the DB after removal.
             playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
         }
+
+        public List<PlayerDB> GetPlayerDB()
+        {
+            return this.playerDB;
+        }
+
+        public void ClearPlayerDB()
+        {
+            playerDB = null;
+        }
     }
 }
