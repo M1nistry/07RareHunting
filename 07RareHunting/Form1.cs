@@ -97,11 +97,12 @@ namespace _07RareHunting
             {
                 Console.WriteLine("ClientIDs.Count " + ClientIDs.Count);
                 if (ClientIDs.Count > 0) Console.WriteLine("CC " + ClientIDs[0]);
+
                 for (int i = 0; i < spawnDGV.Rows.Count; i++)
                 {
                     //Adds the clients names to the DGV and puts them on the list of ClientIDs
                     if (spawnDGV.Rows[i].Cells[0].Value.ToString().Equals(GameInstance.IncomingData[0].Spawn) &&
-                            !ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID))
+                            !ClientIDs.Contains(GameInstance.IncomingData[0].Name))
                     {
                         Console.WriteLine("Added the name: " + GameInstance.IncomingData[0].Name);
                         
@@ -117,9 +118,8 @@ namespace _07RareHunting
                         {   
                             Console.WriteLine("We're in, we can remove!");                            
                             spawnDGV.Rows[i].Cells[0].Value.ToString().Replace(GameInstance.IncomingData[0].Name + ", ", "");
-                            ClientIDs.Remove(GameInstance.IncomingData[0].PlayerID);
-                            update_table();
-                            Console.WriteLine("Removed the name: " + GameInstance.IncomingData[0].Name);
+                            if (ClientIDs.Remove(GameInstance.IncomingData[0].PlayerID)) update_table();
+                            Console.WriteLine("Removed the ID: " + GameInstance.IncomingData[0].PlayerID);
                         }
                     }
                 }
@@ -141,10 +141,10 @@ namespace _07RareHunting
         private void activeTimer_Tick(object sender, EventArgs e)
         {
             UpdateTimer();
-            while (toolStripConnection.Text.Equals("Connected"))
-            {
-                //update_table();
-            }
+            //while (toolStripConnection.Text.Equals("Connected"))
+            //{
+            //    update_table();
+            //}
         }
 
         private void UpdateTimer()

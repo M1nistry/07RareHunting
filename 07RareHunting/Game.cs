@@ -37,6 +37,7 @@ namespace _07RareHunting
 
         public string NameSpawn = "";
         public string NumberSpawn = "";
+        public List<PlayerDB> playerDB = new List<PlayerDB>(); 
 
         public List<Data> IncomingData = new List<Data>(); 
 
@@ -306,6 +307,8 @@ namespace _07RareHunting
             Player p;
             this.Players.TryGetValue(actorNr, out p);
 
+            Hashtable evData = photonEvent[(byte)LiteEventKey.Data] as Hashtable;
+
             switch (photonEvent.Code)
             {
                 case (byte)LiteEventCode.Join:
@@ -321,6 +324,15 @@ namespace _07RareHunting
                             if (!this.Players.ContainsKey(i))
                             {
                                 this.Players[i] = new Player(i);
+
+                                //Add a new player to the PlayerDB list.
+                                PlayerDB NewPlayer = new PlayerDB(
+                                    evData[1].ToString(),
+                                    evData[2].ToString(),
+                                    evData[3].ToString()
+                                    );
+                                playerDB.Add(NewPlayer);
+
                             }
                         }
                     }
@@ -352,7 +364,7 @@ namespace _07RareHunting
                     break;
                 case 1:
                     //This case statement receives the other clients data and saves it
-                    Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;                    
+                    //Hashtable evData = photonEvent[(byte) LiteEventKey.Data] as Hashtable;                    
                     Data TableData = new Data
                         {
                             PlayerID = evData[1].ToString(),
