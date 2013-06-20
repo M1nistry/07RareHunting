@@ -201,7 +201,11 @@ namespace _07RareHunting
             {
                 case StatusCode.Connect:
                     DebugReturn("Connect(ed)");                    
-                    JoinRandomWithLobby();                    
+                    JoinRandomWithLobby();
+
+                    //Create DB Object
+                    playerDB = new PopulatePlayerDB();
+
                     break;
                 case StatusCode.Disconnect:
                     DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
@@ -284,6 +288,9 @@ namespace _07RareHunting
                     // LocalPlayer.generateColor();
                     Players[LocalPlayer.playerID] = LocalPlayer;
                     DebugReturn("LocalPlayer: " + LocalPlayer);
+
+                    //Add Local Player to the PlayerDB
+                    playerDB.Add(new PlayerDB("playerID", "playerName", "location"));
                     break;
             }
         }
@@ -304,7 +311,6 @@ namespace _07RareHunting
             {
                 case LiteEventCode.Join:
                     int[] actorsInGame = (int[])photonEvent[LiteEventKey.ActorList];
-                    playerDB = new PopulatePlayerDB();
                     lock (Players)
                     {
                         foreach (int i in actorsInGame)
