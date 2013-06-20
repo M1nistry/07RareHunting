@@ -17,31 +17,22 @@ namespace _07RareHunting
         public void Add(PlayerDB newPlayerData)
         {
             Console.WriteLine("--------- Adding a new player! ----------");
-            playerDB.Insert(0, newPlayerData);
+            playerDB.Add(newPlayerData);
             Console.WriteLine("----Count: " + playerDB.Count + "------");
         }
 
         public void Update(PlayerDB PlayerData)
         {
-            if (playerDB.Count > 0)
-            {
+            Console.WriteLine("----Count: " + playerDB.Count + "------");
                 for (int i = 0; i < playerDB.Count; i++)
                 {
                     if (playerDB[i].GetPlayerID().Contains(PlayerData.GetPlayerID()))
                     {
+                        Console.WriteLine("Updated the player: " + playerDB[i].GetPlayerID());
                         playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
                     }
-                    else
-                    {
-                        Add(PlayerData);
-                    }
                 }
-                playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
-            }
-            else
-            {
-                Add(PlayerData);
-            }
+                playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();           
         }
 
         public void Delete(PlayerDB newPlayerData)

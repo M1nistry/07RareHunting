@@ -288,9 +288,9 @@ namespace _07RareHunting
                     // LocalPlayer.generateColor();
                     Players[LocalPlayer.playerID] = LocalPlayer;
                     DebugReturn("LocalPlayer: " + LocalPlayer);
-
+                    Console.WriteLine("Joined room. Adding you to the Database.");
                     //Add Local Player to the PlayerDB
-                    playerDB.Add(new PlayerDB("playerID", "playerName", "location"));
+                    playerDB.Add(new PlayerDB(LocalPlayer.playerID.ToString(), "playerName", "location"));
                     break;
             }
         }
