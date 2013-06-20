@@ -41,12 +41,12 @@ namespace _07RareHunting
 
         public void Service()
         {
-            this.peer.Service();
+            peer.Service();
         }
 
         public void Stop()
         {
-            this.peer.Disconnect();
+            peer.Disconnect();
         }
 
 
@@ -76,27 +76,27 @@ namespace _07RareHunting
             switch ((StatusCode)statusCode)
             {
                 case StatusCode.Connect:
-                    this.DebugReturn("Connected");
+                    DebugReturn("Connected");
                     form.toolStripConnection.Text = "Connected";
-                    this.peer.OpJoin(this.lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
+                    peer.OpJoin(lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
                    
                     break;
                 case StatusCode.Disconnect:
-                    this.DebugReturn("Disconnected Peer.state: " + peer.PeerState);
+                    DebugReturn("Disconnected Peer.state: " + peer.PeerState);
                     form.toolStripConnection.Text = "Disconnected";
-                    this.timer = null;
+                    timer = null;
                     break;
                 case StatusCode.ExceptionOnConnect:
-                    this.DebugReturn("ExceptionOnConnected Peer.state: " + peer.PeerState);
+                    DebugReturn("ExceptionOnConnected Peer.state: " + peer.PeerState);
                     
-                    this.timer = null;
+                    timer = null;
                     break;
                 case StatusCode.Exception:
-                    this.DebugReturn("Exceptioned Peer.state: " + peer.PeerState);
-                    this.timer = null;
+                    DebugReturn("Exceptioned Peer.state: " + peer.PeerState);
+                    timer = null;
                     break;
                 default:
-                    this.DebugReturn("OnStatusChanged: " + statusCode);
+                    DebugReturn("OnStatusChanged: " + statusCode);
                     break;
             }
         }
@@ -118,13 +118,13 @@ namespace _07RareHunting
                         {
                             //each key is a room name. each value of a key is the current player count
                             //we still list rooms when they are known and have 0 players. those could be removed
-                            this.gameList[key] = customContent[key];
+                            gameList[key] = customContent[key];
                         }
 
                         List<string> list = new List<string>();
-                        foreach (string key in this.gameList.Keys)
+                        foreach (string key in gameList.Keys)
                         {
-                            list.Add((string) key + ": " + this.gameList[key]);
+                            list.Add( key + ": " + gameList[key]);
                         }
                         break;
                     }

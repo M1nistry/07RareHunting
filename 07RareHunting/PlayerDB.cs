@@ -27,27 +27,27 @@ namespace _07RareHunting
 
         public string GetPlayerID()
         {
-            return this.PlayerID;
+            return PlayerID;
         }
 
         public string GetSpawn()
         {
-            return this.Spawn;
+            return Spawn;
         }
 
         public string GetPlayerName()
         {
-            return this.PlayerName;
+            return PlayerName;
         }
 
         public void SetPlayerID(string playerID)
         {
-            this.PlayerID = playerID;
+            PlayerID = playerID;
         }
 
         public void SetSpawn(string spawn)
         {
-            this.Spawn = spawn;
+            Spawn = spawn;
         }
 
         public void SetPlayerName(string playername)

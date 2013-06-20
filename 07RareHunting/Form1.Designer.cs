@@ -38,6 +38,7 @@ namespace _07RareHunting
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.stripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripConnection = new System.Windows.Forms.ToolStripStatusLabel();
             this.spawnDGV = new System.Windows.Forms.DataGridView();
             this.SpawnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Occupied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -55,7 +56,6 @@ namespace _07RareHunting
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.activeTimer = new System.Windows.Forms.Timer(this.components);
-            this.toolStripConnection = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).BeginInit();
             this.SuspendLayout();
@@ -84,6 +84,12 @@ namespace _07RareHunting
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
             this.toolStripStatusLabel1.Text = "|";
+            // 
+            // toolStripConnection
+            // 
+            this.toolStripConnection.Name = "toolStripConnection";
+            this.toolStripConnection.Size = new System.Drawing.Size(78, 17);
+            this.toolStripConnection.Text = "Connecting...";
             // 
             // spawnDGV
             // 
@@ -313,14 +319,7 @@ namespace _07RareHunting
             "122",
             "123",
             "124",
-            "125",
-            "126",
-            "127",
-            "128",
-            "129",
-            "130",
-            "131",
-            "132"});
+            "125"});
             this.spawnCombo.Location = new System.Drawing.Point(56, 454);
             this.spawnCombo.MaxDropDownItems = 15;
             this.spawnCombo.Name = "spawnCombo";
@@ -405,12 +404,6 @@ namespace _07RareHunting
             // 
             this.activeTimer.Interval = 500;
             this.activeTimer.Tick += new System.EventHandler(this.activeTimer_Tick);
-            // 
-            // toolStripConnection
-            // 
-            this.toolStripConnection.Name = "toolStripConnection";
-            this.toolStripConnection.Size = new System.Drawing.Size(78, 17);
-            this.toolStripConnection.Text = "Connecting...";
             // 
             // Form1
             // 

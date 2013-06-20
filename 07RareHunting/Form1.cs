@@ -27,7 +27,6 @@ namespace _07RareHunting
         public string messages;
         public List<string> ClientIDs = new List<string>();
         private PopulatePlayerDB playerDB;
-        //public List<KeyValuePair<int, string>> ClientIDs = new List<KeyValuePair<int, string>>();
 
         DateTime EndOfTime;
 
@@ -40,7 +39,9 @@ namespace _07RareHunting
             GameInstance = new Game(this.DebugReturn, true);
             GameInstance.Connect();
             GameInstance.form1 = this;
+            
 
+            playerDB = new PopulatePlayerDB();
 
             nameBox.Text = Properties.Settings.Default.permName;
             TopMost = Properties.Settings.Default.alwaysOnTop;            
@@ -130,9 +131,9 @@ namespace _07RareHunting
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            spawnDGV.DataSource = playerDB;
+        {            
             //update_table();
+            Console.WriteLine("pdDb : " + playerDB.playerDB.Count);
         }
 
         private void optionsButton_Click(object sender, EventArgs e)

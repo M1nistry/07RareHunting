@@ -74,16 +74,14 @@ namespace _07RareHunting
 
         public Player(int actorNr)
         {
-            this.playerID = actorNr;
-
+            playerID = actorNr;
             Properties.Settings.Default.clientID = playerID.ToString();
 
-            this.form1 = form1;
             
             // we create the local player as actornumber 0. this is not used (ever) in a room. random init is only for "our" player:
             if (actorNr < 1)
             {
-                this.name = "dotnet";
+                name = "dotnet";
             }
         }
 
@@ -96,7 +94,7 @@ namespace _07RareHunting
 
             // Setting up the content of the event. Here we want to send a player's info: name and color.
             Hashtable evInfo = new Hashtable();
-            evInfo.Add((byte)DemoEventKey.PlayerName, this.name);
+            evInfo.Add((byte)DemoEventKey.PlayerName, name);
 
             // The event's code must be of type byte, so we have to cast it. We do this above as well, to get routine ;)
             peer.OpRaiseEvent((byte)DemoEventCode.PlayerInfo, evInfo, true);
@@ -104,23 +102,20 @@ namespace _07RareHunting
 
         internal void SetInfo(Hashtable customEventContent)
         {
-            this.name = (string)customEventContent[(byte)DemoEventKey.PlayerName];
+            name = (string)customEventContent[(byte)DemoEventKey.PlayerName];
         }
 
         public void SendEvMove(LitePeer peer, int spawnNumber, string spawnName)
         {
             if (peer == null) return;
-         
 
             var updateStatus = new Hashtable();
 
             updateStatus.Add(1, playerID);
             updateStatus.Add(2, spawnNumber);
-                        
-            // if encryption is turned off, we simply use OpRaiseEvent
-            Console.WriteLine("We're here");
-            peer.OpRaiseEvent((byte)DemoEventCode.PlayerMove, updateStatus, isSendReliable);
+            updateStatus.Add(3, spawnName);
 
+            peer.OpRaiseEvent(1, updateStatus, isSendReliable);
         }        
         #endregion
     }

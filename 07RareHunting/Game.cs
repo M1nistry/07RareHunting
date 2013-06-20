@@ -18,7 +18,6 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace _07RareHunting
@@ -43,11 +42,11 @@ namespace _07RareHunting
 
         private readonly Thread updateThread;        
 
-        public string ServerAddress = "115.64.233.52:5055";	// this must be replaced with an IP of your server  in form of: "ip:port"
-        public ConnectionProtocol protocol = ConnectionProtocol.Udp;                     // Photon can use UDP (default) or TCP as underlying protocol
-        public string GameId = "realtimeDemoGame000";   // Name of the room this demo joins. Used in other SDKs as well
+        public string ServerAddress = "115.64.233.52:5055";
+        public ConnectionProtocol protocol = ConnectionProtocol.Udp;
+        public string GameId = "realtimeDemoGame000";  
 
-        /// <summary>LitePeer is a PhotonPeer, which allows you to connect and call operations on the Photon Server</summary>
+        // LitePeer is a PhotonPeer, which allows you to connect and call operations on the Photon Server
         public LitePeer Peer;
         
         // as this is used while drawing (in another thread than the update loop), this must be locked
@@ -89,12 +88,12 @@ namespace _07RareHunting
         {
             if (createGameLoopThread)
             {
-                this.updateThread = new Thread(this.Gameloop);
-                this.updateThread.IsBackground = true;
-                this.updateThread.Start();
+                updateThread = new Thread(Gameloop);
+                updateThread.IsBackground = true;
+                updateThread.Start();
             }
 
-            this.DebugListeners = debugDelegate;
+            DebugListeners = debugDelegate;
         }
 
         private void Gameloop()
@@ -103,46 +102,42 @@ namespace _07RareHunting
             {
                 while (true)
                 {
-                    this.Update();
+                    Update();
                     Thread.Sleep(10);
                 }
             }
             catch (Exception ex)
             {
-                this.DebugReturn("Exception in Gameloop: " + ex.ToString());
+                DebugReturn("Exception in Gameloop: " + ex.ToString());
             }
         }
 
-        /// <summary>
-        /// Update must be called by a gameloop (a single thread), so it can handle
-        /// automatic movement and networking.
-        /// </summary>
         public void Update()
         {
-            if (Environment.TickCount - this.lastDispatch > this.intervalDispatch)
+            if (Environment.TickCount - lastDispatch > intervalDispatch)
             {
                 this.lastDispatch = Environment.TickCount;
                 this.DispatchAll();
             }
-            if (Environment.TickCount - this.lastSend > this.intervalSend)
+            if (Environment.TickCount - lastSend > intervalSend)
             {
                 this.lastSend = Environment.TickCount;
                 this.SendOutgoingCommands();
 
             }
-            if (Environment.TickCount - this.lastMove > this.intervalMove)
+            if (Environment.TickCount - lastMove > intervalMove)
             {
-                this.lastMove = Environment.TickCount;
-                this.SendPosition();
+                lastMove = Environment.TickCount;
+                SendPosition();
 
             }           
             // Update call for windows phone UI-Thread
-            if (Environment.TickCount - this.lastUiUpdate > this.intervalUiUpdate)
+            if (Environment.TickCount - lastUiUpdate > intervalUiUpdate)
             {
-                this.lastUiUpdate = Environment.TickCount;
-                if (this.OnUpdate != null)
+                lastUiUpdate = Environment.TickCount;
+                if (OnUpdate != null)
                 {
-                    this.OnUpdate();
+                    OnUpdate();
                 }
             }
         }
@@ -152,13 +147,13 @@ namespace _07RareHunting
         // Here the connection to Photon is established (if not already connected).
         public bool Connect()
         {
-            if (this.Peer == null)
+            if (Peer == null)
             {
-                this.Peer = new LiteLobbyPeer(this, this.protocol);
+               Peer = new LiteLobbyPeer(this, protocol);
             }
-            else if (this.Peer.PeerState != PeerStateValue.Disconnected)
+            else if (Peer.PeerState != PeerStateValue.Disconnected)
             {
-                this.DebugReturn("already connected! disconnect first.");
+                DebugReturn("already connected! disconnect first.");
                 return false;
             }
 
@@ -168,14 +163,14 @@ namespace _07RareHunting
             // The amount of debugging/logging from the Photon library can be set this way:
             this.Peer.DebugOut = DebugLevel.ERROR;
 
-            if (!this.Peer.Connect(this.ServerAddress, AppName))
+            if (!Peer.Connect(ServerAddress, AppName))
             {
-                this.DebugReturn("Couldn't connect. Check debug log.");
+                DebugReturn("Couldn't connect. Check debug log.");
                 return false;
             }
 
-            this.Players = new Dictionary<int, Player>();
-            this.LocalPlayer = new Player(0);
+            Players = new Dictionary<int, Player>();
+            LocalPlayer = new Player(0);
 
             return true;
         }
@@ -183,9 +178,9 @@ namespace _07RareHunting
         // Disconnect from the server.
         internal void Disconnect()
         {
-            if (this.Peer != null)
+            if (Peer != null)
             {
-                this.Peer.Disconnect();	//this will dump all prepared outgoing data and immediately send a "disconnect"
+                Peer.Disconnect();	//this will dump all prepared outgoing data and immediately send a "disconnect"
             }
         }
 
@@ -194,7 +189,7 @@ namespace _07RareHunting
         // This is the callback for the Photon library's debug output
         public void DebugReturn(DebugLevel level, string debug)
         {
-            this.DebugListeners(debug); // This demo simply ignores the debug level
+            DebugListeners(debug); // This demo simply ignores the debug level
         }
 
         // Photon library callback for state changes (connect, disconnect, etc.)
@@ -205,58 +200,58 @@ namespace _07RareHunting
             switch (returnCode)
             {
                 case StatusCode.Connect:
-                    this.DebugReturn("Connect(ed)");                    
-                    this.JoinRandomWithLobby();
-                    playerDB = new PopulatePlayerDB();
+                    DebugReturn("Connect(ed)");                    
+                    JoinRandomWithLobby();                    
                     break;
                 case StatusCode.Disconnect:
-                    this.DebugReturn("Disconnect(ed) Peer.state: " + this.Peer.PeerState);
-                    this.LocalPlayer.playerID = 0;
+                    DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
+                    LocalPlayer.playerID = 0;
+                    lock (Players)
+                    {
+                        Players.Clear();
+                    }
+
+                    break;
+                case StatusCode.ExceptionOnConnect:
+                    DebugReturn("ExceptionOnConnect. Peer.state: " + Peer.PeerState);
+                    if (ServerAddress.StartsWith("127.0.0.1"))
+                    {
+                        DebugReturn("The server address is '127.0.0.1'. This won't work on a device. Adjust this to your server's address.");
+                    }
+                    LocalPlayer.playerID = 0;
+                    lock (Players)
+                    {
+                        Players.Clear();
+                    }
+
+                    break;
+                case StatusCode.Exception:
+                    DebugReturn("Exception. Peer.state: " + Peer.PeerState);
+                    LocalPlayer.playerID = 0;
                     lock (Players)
                     {
                         Players.Clear();
                     }
                     break;
-                case StatusCode.ExceptionOnConnect:
-                    this.DebugReturn("ExceptionOnConnect. Peer.state: " + this.Peer.PeerState);
-                    if (this.ServerAddress.StartsWith("127.0.0.1"))
-                    {
-                        this.DebugReturn("The server address is '127.0.0.1'. This won't work on a device. Adjust this to your server's address.");
-                    }
-                    this.LocalPlayer.playerID = 0;
-                    lock (this.Players)
-                    {
-                    this.Players.Clear();
-                    }
-
-                    break;
-                case StatusCode.Exception:
-                    this.DebugReturn("Exception. Peer.state: " + this.Peer.PeerState);
-                    this.LocalPlayer.playerID = 0;
-                    lock (this.Players)
-                    {
-                    this.Players.Clear();
-                    }
-                    break;
                 case StatusCode.SendError:
-                    this.DebugReturn("SendError! Peer.state: " + this.Peer.PeerState);
-                    this.LocalPlayer.playerID = 0;
-                    lock (this.Players)
+                    DebugReturn("SendError! Peer.state: " + this.Peer.PeerState);
+                    LocalPlayer.playerID = 0;
+                    lock (Players)
                     {
-                    this.Players.Clear();
+                        Players.Clear();
                     }
                     break;
                 case StatusCode.EncryptionEstablished:
-                    this.DebugReturn("Encryption now available: " + this.Peer.IsEncryptionAvailable);
+                    DebugReturn("Encryption now available: " + this.Peer.IsEncryptionAvailable);
                     break;
                 case StatusCode.EncryptionFailedToEstablish:
-                    this.DebugReturn("Encryption initialisation failed. Check previous debug output.");
+                    DebugReturn("Encryption initialisation failed. Check previous debug output.");
                     break;
                 case StatusCode.QueueIncomingReliableWarning:
                     Console.WriteLine("Status Code is working");
                     break;
                 default:
-                    this.DebugReturn("OnStatusChanged(): " + returnCode);
+                    DebugReturn("OnStatusChanged(): " + returnCode);
                     break;
             }
         }
@@ -268,27 +263,27 @@ namespace _07RareHunting
         {
             if (operationResponse.OperationCode != (byte)LiteOpCode.RaiseEvent)
             {
-                this.DebugReturn("OnOperationResponse() " + operationResponse.ToStringFull());
+                DebugReturn("OnOperationResponse() " + operationResponse.ToStringFull());
             }
 
             // handle operation returns (aside from "join", this demo does not watch for returns)
             switch (operationResponse.OperationCode)
             {
-                case (byte)LiteOpCode.Join:
+                case LiteOpCode.Join:
                     // in case join fails, it won't contain the expected data. Let's print what's in there
                     if (operationResponse.ReturnCode != 0)
                     {
-                        this.DebugReturn("Join failed. Response: " + operationResponse.ToStringFull());
+                        DebugReturn("Join failed. Response: " + operationResponse.ToStringFull());
                         break;
                     }
 
                     // get the local player's numer from the returnvalues, get the player from the list and colorize it:
-                    int actorNrReturnedForOpJoin = (int)operationResponse[(byte)LiteOpKey.ActorNr];
+                    int actorNrReturnedForOpJoin = (int)operationResponse[LiteOpKey.ActorNr];
                     this.LocalPlayer.playerID = actorNrReturnedForOpJoin;
 
                     // LocalPlayer.generateColor();
-                    this.Players[this.LocalPlayer.playerID] = this.LocalPlayer;
-                    this.DebugReturn("LocalPlayer: " + this.LocalPlayer);
+                    Players[LocalPlayer.playerID] = LocalPlayer;
+                    DebugReturn("LocalPlayer: " + LocalPlayer);
                     break;
             }
         }
@@ -298,48 +293,35 @@ namespace _07RareHunting
         public void OnEvent(EventData photonEvent)
         {
             
-            this.DebugReturn("OnEvent() " + photonEvent.ToStringFull());
+            DebugReturn("OnEvent() " + photonEvent.ToStringFull());
 
-            int actorNr = (int)photonEvent[(byte)LiteEventKey.ActorNr];
+            int actorNr = (int)photonEvent[LiteEventKey.ActorNr];
 
-            // get the player that raised this event
             Player p;
-            this.Players.TryGetValue(actorNr, out p);
-
-            Hashtable evData = photonEvent[(byte)LiteEventKey.Data] as Hashtable;
+            Players.TryGetValue(actorNr, out p);
 
             switch (photonEvent.Code)
             {
-                case (byte)LiteEventCode.Join:
-                    int[] actorsInGame = (int[])photonEvent[(byte)LiteEventKey.ActorList];
-                    lock (this.Players)
+                case LiteEventCode.Join:
+                    int[] actorsInGame = (int[])photonEvent[LiteEventKey.ActorList];
+                    playerDB = new PopulatePlayerDB();
+                    lock (Players)
                     {
                         foreach (int i in actorsInGame)
                         {
-                            if (!this.Players.ContainsKey(i))
+                            if (!Players.ContainsKey(i))
                             {
-                                this.Players[i] = new Player(i);
-
-                                //Add a new player to the PlayerDB list.
-                                Console.WriteLine("Connected and adding a player to the DB!");
-                               //playerDB.Add(new PlayerDB(evData[1].ToString(),evData[2].ToString(), evData[3].ToString()));
+                                Players[i] = new Player(i);
                             }
                         }
                     }
-                    this.LocalPlayer.SendPlayerInfo(this.Peer);
+                    LocalPlayer.SendPlayerInfo(Peer);
                     break;
 
-                case (byte)Player.DemoEventCode.PlayerMove:
-                    Console.WriteLine("dghjf");
-                    //This case statement receives the other clients data and saves it             
-                    playerDB.Update(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
-                    break;
-
-                case (byte)LiteEventCode.Leave:                  
-                    lock (this.Players)
+                case LiteEventCode.Leave:                  
+                    lock (Players)
                     {
-                        this.Players.Remove(actorNr);
-                        playerDB.Delete(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
+                        Players.Remove(actorNr);
                     }
                     break;
 
@@ -348,7 +330,7 @@ namespace _07RareHunting
                     // if player is known (and it should be known!), update info
                     if (p != null)
                     {
-                        p.SetInfo((Hashtable)photonEvent[(byte)LiteEventKey.CustomContent]);
+                        p.SetInfo((Hashtable)photonEvent[LiteEventKey.CustomContent]);                       
                     }
                     else
                     {
@@ -357,7 +339,15 @@ namespace _07RareHunting
 
                     PrintPlayers();
                     break;
-                
+
+                case 1:
+                    var evData = photonEvent[LiteEventKey.Data] as Hashtable;
+                    if (form1.activeCheck.Checked)
+                    {
+                        playerDB.Update(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
+                    }
+                    break;
+
             }
         }
 
@@ -370,15 +360,15 @@ namespace _07RareHunting
         {
             string RoomName = RoomNamePrefix;
 
-            lock (this.Players)
+            lock (Players)
             {
                 // if this client is in a game already, it is now outdated: clean list of players and local actor number
-                this.Players.Clear();
-                this.LocalPlayer.playerID = 0;
+                Players.Clear();
+                LocalPlayer.playerID = 0;
             }
 
             // You can take a look at the implementation of OpJoinFromLobby in LiteLobbyPeer.cs
-            ((LiteLobbyPeer) this.Peer).OpJoinFromLobby(RoomName, LobbyName, null, false);
+            ((LiteLobbyPeer) Peer).OpJoinFromLobby(RoomName, LobbyName, null, false);
 
         }
 
@@ -387,7 +377,7 @@ namespace _07RareHunting
         public void SendPosition()
         {
             // dont move if player does not have a number or peer is not connected
-            if (this.LocalPlayer == null || this.LocalPlayer.playerID == 0 || this.Peer == null)
+            if (LocalPlayer == null || LocalPlayer.playerID == 0 || Peer == null)
             {
                 return;
             }
@@ -400,27 +390,27 @@ namespace _07RareHunting
         public void SendPlayerInfo()
         {
             // dont move if player does not have a number or peer is not connected
-            if (this.LocalPlayer == null || this.LocalPlayer.playerID == 0 || this.Peer == null)
+            if (LocalPlayer == null || LocalPlayer.playerID == 0 || Peer == null)
             {
                 return;
             }
 
-            this.LocalPlayer.SendPlayerInfo(this.Peer);
+            LocalPlayer.SendPlayerInfo(Peer);
 
         }
 
         // Actually sends the outgoing data (which was previously queued in the PhotonPeer)
         public void SendOutgoingCommands()
         {
-            if (this.Peer != null)
+            if (Peer != null)
             {
-                this.Peer.SendOutgoingCommands();
+                Peer.SendOutgoingCommands();
             }
         }
 
         public void DispatchAll()
         {
-            while (this.Peer != null && this.Peer.DispatchIncomingCommands())
+            while (Peer != null && Peer.DispatchIncomingCommands())
             {
                 
             }
@@ -429,15 +419,15 @@ namespace _07RareHunting
         public void PrintPlayers()
         {
             string players = "Players: ";
-            lock (this.Players)
+            lock (Players)
             {
-                foreach (Player p in this.Players.Values)
+                foreach (Player p in Players.Values)
                 {
-                    players += p.ToString() + ", ";
+                    players += p + ", ";
                 }
             }
 
-            this.DebugReturn(players);
+            DebugReturn(players);
         }
 
         // This is only used by the game / application, not by the Photon library

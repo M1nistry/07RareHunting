@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace _07RareHunting
 {
@@ -17,28 +16,32 @@ namespace _07RareHunting
         //Update DB with current JSON data
         public void Add(PlayerDB newPlayerData)
         {
-            for (int i = 0; i < playerDB.Count; i++)
-            {
-                if (playerDB[i].GetPlayerID().Contains(newPlayerData.GetPlayerID()) )
-                {
-                    return;
-                }                            
-            }
-
-            playerDB.Add(newPlayerData);
+            Console.WriteLine("--------- Adding a new player! ----------");
+            playerDB.Insert(0, newPlayerData);
+            Console.WriteLine("----Count: " + playerDB.Count + "------");
         }
 
-        public void Update(PlayerDB newPlayerData)
+        public void Update(PlayerDB PlayerData)
         {
-            for (int i = 0; i < playerDB.Count; i++)
+            if (playerDB.Count > 0)
             {
-                if (playerDB[i].GetPlayerID().Contains(newPlayerData.GetPlayerID()))
+                for (int i = 0; i < playerDB.Count; i++)
                 {
-                    playerDB[i].GetPlayerName().Equals(newPlayerData.GetPlayerID());
-                    playerDB[i].GetSpawn().Equals(newPlayerData.GetSpawn());
+                    if (playerDB[i].GetPlayerID().Contains(PlayerData.GetPlayerID()))
+                    {
+                        playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
+                    }
+                    else
+                    {
+                        Add(PlayerData);
+                    }
                 }
-                else return;
-            }            
+                playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
+            }
+            else
+            {
+                Add(PlayerData);
+            }
         }
 
         public void Delete(PlayerDB newPlayerData)
@@ -50,7 +53,6 @@ namespace _07RareHunting
                     playerDB.RemoveAt(i);
                 }
             }
-            //playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();
         }
 
         public List<PlayerDB> GetPlayerDB()
