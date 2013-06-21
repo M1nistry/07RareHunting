@@ -209,6 +209,8 @@ namespace _07RareHunting
                     break;
                 case StatusCode.Disconnect:
                     DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
+                    Console.WriteLine("Deleting the player: " + LocalPlayer.playerID);
+                    playerDB.Delete(new PlayerDB(LocalPlayer.playerID.ToString(), "Delete", "Delete"));
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -283,11 +285,9 @@ namespace _07RareHunting
 
                     // get the local player's numer from the returnvalues, get the player from the list and colorize it:
                     int actorNrReturnedForOpJoin = (int)operationResponse[LiteOpKey.ActorNr];
-                    this.LocalPlayer.playerID = actorNrReturnedForOpJoin;
-
-                    // LocalPlayer.generateColor();
+                    LocalPlayer.playerID = actorNrReturnedForOpJoin;
                     Players[LocalPlayer.playerID] = LocalPlayer;
-                    DebugReturn("LocalPlayer: " + LocalPlayer);
+
                     Console.WriteLine("Joined room. Adding you to the Database.");
                     //Add Local Player to the PlayerDB
                     playerDB.Add(new PlayerDB(LocalPlayer.playerID.ToString(), "playerName", "location"));
