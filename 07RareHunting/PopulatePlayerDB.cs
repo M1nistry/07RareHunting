@@ -22,20 +22,30 @@ namespace _07RareHunting
 
         public void Update(PlayerDB PlayerData)
         {
+            bool matchfound = false;
             Console.WriteLine("----Count: " + playerDB.Count + "------");
-                for (int i = 0; i < playerDB.Count; i++)
-                {                    
-                    if (playerDB[i].GetPlayerID().Contains(PlayerData.GetPlayerID()))
-                    {
-                        playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
-                    }
-                    if (!playerDB.Contains(PlayerData))
-                    {
-                        //Console.WriteLine("P.ID " + playerDB[i].GetPlayerID() + " and " + PlayerData.GetPlayerID());
-                        Add(PlayerData);
-                    }                   
+            for (int i = 0; i < playerDB.Count; i++)
+            {
+                if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
+                {
+                    Console.WriteLine("--- Player is in the table, updating them ---");
+                    playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
+                    matchfound = true;
+                    return;
                 }
+
+                if (!matchfound)
+                {
+                    playerDB.Add(PlayerData);
+                }
+
+                if (matchfound)
+                {
+                    matchfound = false;
+                }
+
                 //playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();           
+            }            
         }
 
 

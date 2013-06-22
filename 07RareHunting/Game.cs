@@ -209,8 +209,8 @@ namespace _07RareHunting
                     break;
                 case StatusCode.Disconnect:
                     DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
-                    Console.WriteLine("Deleting the player: " + LocalPlayer.playerID);
-                    playerDB.Delete(new PlayerDB(LocalPlayer.playerID.ToString(), "Delete", "Delete"));
+                    //Console.WriteLine("Deleting the player: " + LocalPlayer.playerID);
+                    //playerDB.Delete(new PlayerDB(LocalPlayer.playerID.ToString(), "Delete", "Delete"));
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -229,7 +229,6 @@ namespace _07RareHunting
                     {
                         Players.Clear();
                     }
-
                     break;
                 case StatusCode.Exception:
                     DebugReturn("Exception. Peer.state: " + Peer.PeerState);
@@ -291,6 +290,7 @@ namespace _07RareHunting
                     Console.WriteLine("Joined room. Adding you to the Database.");
                     //Add Local Player to the PlayerDB
                     playerDB.Add(new PlayerDB(LocalPlayer.playerID.ToString(), "playerName", "location"));
+                    Console.WriteLine("You've been added, rock on!");
                     break;
             }
         }
