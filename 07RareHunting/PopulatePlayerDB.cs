@@ -22,7 +22,7 @@ namespace _07RareHunting
 
         public void Update(PlayerDB PlayerData)
         {
-            bool matchfound = false;
+            bool possibleAdd = false;
             Console.WriteLine("----Count: " + playerDB.Count + "------");
             for (int i = 0; i < playerDB.Count; i++)
             {
@@ -30,22 +30,20 @@ namespace _07RareHunting
                 {
                     Console.WriteLine("--- Player is in the table, updating them ---");
                     playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
-                    matchfound = true;
+                    possibleAdd = false;
                     return;
                 }
 
-                if (!matchfound)
+                else
                 {
-                    playerDB.Add(PlayerData);
-                }
+                    possibleAdd = true;
+                }       
+            }
 
-                if (matchfound)
-                {
-                    matchfound = false;
-                }
-
-                //playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();           
-            }            
+            if (possibleAdd)
+            {
+                Add(PlayerData);
+            }
         }
 
 
