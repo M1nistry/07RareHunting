@@ -11,6 +11,7 @@ namespace _07RareHunting
         private string PlayerID;
         private string Spawn;
         private string PlayerName;
+        private DateTime UpdateTime;
 
         public PlayerDB(String PlayerID, String Spawn, String PlayerName)
         {

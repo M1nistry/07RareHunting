@@ -16,24 +16,20 @@ namespace _07RareHunting
         //Update DB with current JSON data
         public void Add(PlayerDB newPlayerData)
         {
-            Console.WriteLine("--------- Adding a new player! ----------");
             playerDB.Add(newPlayerData);
         }
 
         public void Update(PlayerDB PlayerData)
         {
             bool possibleAdd = false;
-            Console.WriteLine("----Count: " + playerDB.Count + "------");
             for (int i = 0; i < playerDB.Count; i++)
             {
                 if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
                 {
-                    Console.WriteLine("--- Player is in the table, updating them ---");
                     playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName());
                     possibleAdd = false;
                     return;
                 }
-
                 else
                 {
                     possibleAdd = true;
@@ -51,7 +47,7 @@ namespace _07RareHunting
         {
             for (int i = 0; i < playerDB.Count; i++)
             {
-                if ( playerDB[i].GetPlayerID().Equals(newPlayerData.GetPlayerID()) )
+                if ( playerDB[i].GetPlayerID().Equals(newPlayerData.GetPlayerID()))
                 {
                     playerDB.RemoveAt(i);
                 }
@@ -60,7 +56,7 @@ namespace _07RareHunting
 
         public List<PlayerDB> GetPlayerDB()
         {
-            return this.playerDB;
+            return playerDB;
         }
 
         public void ClearPlayerDB()

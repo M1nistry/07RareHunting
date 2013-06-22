@@ -133,7 +133,7 @@ namespace _07RareHunting
         private void button1_Click(object sender, EventArgs e)
         {            
             //update_table();
-            Console.WriteLine("pdDb : " + playerDB.playerDB.Count);
+            Console.WriteLine("pdDb : " + playerDB.GetPlayerDB().Count);
         }
 
         private void optionsButton_Click(object sender, EventArgs e)

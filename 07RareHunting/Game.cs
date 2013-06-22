@@ -290,7 +290,6 @@ namespace _07RareHunting
                     Console.WriteLine("Joined room. Adding you to the Database.");
                     //Add Local Player to the PlayerDB
                     playerDB.Add(new PlayerDB(LocalPlayer.playerID.ToString(), "playerName", "location"));
-                    Console.WriteLine("You've been added, rock on!");
                     break;
             }
         }
