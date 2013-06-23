@@ -8,25 +8,26 @@ namespace _07RareHunting
     public class PlayerDB
     {
         //Player Information
-        private string PlayerID;
+        private int PlayerID;
         private string Spawn;
         private string PlayerName;
         private DateTime UpdateTime;
 
-        public PlayerDB(String PlayerID, String Spawn, String PlayerName)
+        public PlayerDB(int PlayerID, String Spawn, String PlayerName)
         {
             this.PlayerID = PlayerID;
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
         }
 
-        public void Update(String Spawn, String PlayerName)
+        public void Update(String Spawn, String PlayerName, DateTime UpdateTime)
         {
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
+            this.UpdateTime = UpdateTime;
         }
 
-        public string GetPlayerID()
+        public int GetPlayerID()
         {
             return PlayerID;
         }
@@ -41,7 +42,7 @@ namespace _07RareHunting
             return PlayerName;
         }
 
-        public void SetPlayerID(string playerID)
+        public void SetPlayerID(int playerID)
         {
             PlayerID = playerID;
         }
@@ -54,6 +55,11 @@ namespace _07RareHunting
         public void SetPlayerName(string playername)
         {
             this.PlayerName = playername;
+        }
+
+        public DateTime LastUpdateTime()
+        {
+            return UpdateTime;
         }
     }
 }

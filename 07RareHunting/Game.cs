@@ -289,7 +289,7 @@ namespace _07RareHunting
 
                     Console.WriteLine("Joined room. Adding you to the Database.");
                     //Add Local Player to the PlayerDB
-                    playerDB.Add(new PlayerDB(LocalPlayer.playerID.ToString(), "playerName", "location"));
+                    playerDB.Add(new PlayerDB(LocalPlayer.playerID, "playerName", "location"));
                     break;
             }
         }
@@ -349,7 +349,7 @@ namespace _07RareHunting
                     var evData = photonEvent[LiteEventKey.Data] as Hashtable;
                     if (form1.activeCheck.Checked)
                     {
-                        playerDB.Update(new PlayerDB(evData[1].ToString(), evData[2].ToString(), evData[3].ToString()));
+                        playerDB.Update(new PlayerDB(Convert.ToInt32(evData[1]), evData[2].ToString(), evData[3].ToString()));
                     }
                     break;
 

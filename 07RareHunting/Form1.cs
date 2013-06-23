@@ -25,7 +25,6 @@ namespace _07RareHunting
         private LobbyHandler LobbyHandlerInstance;
 
         public string messages;
-        public List<string> ClientIDs = new List<string>();
         private PopulatePlayerDB playerDB;
 
         DateTime EndOfTime;
@@ -40,8 +39,6 @@ namespace _07RareHunting
             GameInstance.Connect();
             GameInstance.form1 = this;
             
-
-            playerDB = new PopulatePlayerDB();
 
             nameBox.Text = Properties.Settings.Default.permName;
             TopMost = Properties.Settings.Default.alwaysOnTop;            
@@ -95,37 +92,11 @@ namespace _07RareHunting
 
         private void update_table()
         {
-            if (GameInstance.IncomingData != (null) && ClientIDs != (null))
+            for (int i = 0; i < spawnDGV.Rows.Count; i++)
             {
-                Console.WriteLine("ClientIDs.Count " + ClientIDs.Count);
-                if (ClientIDs.Count > 0) Console.WriteLine("CC " + ClientIDs[0]);
-
-                for (int i = 0; i < spawnDGV.Rows.Count; i++)
-                {
-                    //Adds the clients names to the DGV and puts them on the list of ClientIDs
-                    if (spawnDGV.Rows[i].Cells[0].Value.ToString().Equals(GameInstance.IncomingData[0].Spawn) &&
-                            !ClientIDs.Contains(GameInstance.IncomingData[0].Name))
-                    {
-                        Console.WriteLine("Added the name: " + GameInstance.IncomingData[0].Name);
-                        
-                        spawnDGV.Rows[i].Cells[2].Value += GameInstance.IncomingData[0].Name + ", ";
-                        spawnDGV.Rows[(Convert.ToInt32(spawnCombo.Text) - 1)].Cells[2].Value += nameBox.Text + ", ";
-                        ClientIDs.Add(GameInstance.IncomingData[0].PlayerID);
-                    }
-                    else
-                    {
-                        //If the player is already listed somewhere within the table, remove them and rerun the update.
-                        if (ClientIDs.Contains(GameInstance.IncomingData[0].PlayerID) &&
-                            spawnDGV.Rows[i].Cells[0].Value.ToString().Contains(GameInstance.IncomingData[0].Name + ", "))
-                        {   
-                            Console.WriteLine("We're in, we can remove!");                            
-                            spawnDGV.Rows[i].Cells[0].Value.ToString().Replace(GameInstance.IncomingData[0].Name + ", ", "");
-                            if (ClientIDs.Remove(GameInstance.IncomingData[0].PlayerID)) update_table();
-                            Console.WriteLine("Removed the ID: " + GameInstance.IncomingData[0].PlayerID);
-                        }
-                    }
-                }
+                spawnDGV.Rows[i].Cells[2].Value.Equals(playerDB.GetPlayerDB());
             }
+            
             // Console.WriteLine("Value: " + spawnDGV.Rows[0].Cells[0].Value);
             // Console.WriteLine("Game: " + GameInstance.IncomingData[0].Spawn);
         }
