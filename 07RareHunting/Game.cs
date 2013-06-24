@@ -44,7 +44,7 @@ namespace _07RareHunting
 
         public string ServerAddress = "115.64.233.52:5055";
         public ConnectionProtocol protocol = ConnectionProtocol.Udp;
-        public string GameId = "realtimeDemoGame000";  
+        public string GameId = "RSRH07";  
 
         // LitePeer is a PhotonPeer, which allows you to connect and call operations on the Photon Server
         public LitePeer Peer;
@@ -189,11 +189,10 @@ namespace _07RareHunting
         // This is the callback for the Photon library's debug output
         public void DebugReturn(DebugLevel level, string debug)
         {
-            DebugListeners(debug); // This demo simply ignores the debug level
+            DebugListeners(debug); 
         }
 
         // Photon library callback for state changes (connect, disconnect, etc.)
-        // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnStatusChanged(StatusCode returnCode)
         {            
             // handle returnCodes for connect, disconnect and errors (non-operations)
@@ -209,8 +208,6 @@ namespace _07RareHunting
                     break;
                 case StatusCode.Disconnect:
                     DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
-                    //Console.WriteLine("Deleting the player: " + LocalPlayer.playerID);
-                    //playerDB.Delete(new PlayerDB(LocalPlayer.playerID.ToString(), "Delete", "Delete"));
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -263,7 +260,6 @@ namespace _07RareHunting
 
         // Photon library callback to get us operation results (if our operation was executed server-side)
         // Only called for reliable commands! Anything sent unreliable will not produce a response.
-        // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnOperationResponse(OperationResponse operationResponse)
         {
             if (operationResponse.OperationCode != (byte)LiteOpCode.RaiseEvent)
@@ -288,8 +284,13 @@ namespace _07RareHunting
                     Players[LocalPlayer.playerID] = LocalPlayer;
 
                     Console.WriteLine("Joined room. Adding you to the Database.");
-                    //Add Local Player to the PlayerDB
+                    //Add Local Player to the PlayerDB after joining the room.
                     playerDB.Add(new PlayerDB(LocalPlayer.playerID, "playerName", "location"));
+                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, "playerName", "location"));
+                    break;
+
+                case LiteOpCode.RaiseEvent:
+                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, form1.spawnCombo.Text, form1.nameBox.Text));
                     break;
             }
         }
@@ -367,12 +368,10 @@ namespace _07RareHunting
 
             lock (Players)
             {
-                // if this client is in a game already, it is now outdated: clean list of players and local actor number
                 Players.Clear();
                 LocalPlayer.playerID = 0;
             }
 
-            // You can take a look at the implementation of OpJoinFromLobby in LiteLobbyPeer.cs
             ((LiteLobbyPeer) Peer).OpJoinFromLobby(RoomName, LobbyName, null, false);
 
         }

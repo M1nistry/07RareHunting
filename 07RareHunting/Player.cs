@@ -116,6 +116,7 @@ namespace _07RareHunting
             updateStatus.Add(3, spawnName);
 
             peer.OpRaiseEvent(1, updateStatus, isSendReliable);
+            
         }        
         #endregion
     }

@@ -20,7 +20,7 @@ namespace _07RareHunting
 
             alwaysNameText.Text = Settings.Default["permName"].ToString();
             ontopCheck.Checked = Settings.Default.alwaysOnTop;
-            clientIDLabel.Text = Settings.Default.clientID;
+            
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

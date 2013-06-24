@@ -7,7 +7,8 @@ namespace _07RareHunting
     public class PopulatePlayerDB
     {
         public List<PlayerDB> playerDB;
-        private TimeSpan DeleteSpan = TimeSpan.FromSeconds(15);
+        private TimeSpan DeleteSpan = TimeSpan.FromSeconds(20);
+        private bool possibleAdd = false;
 
         public PopulatePlayerDB()
         {
@@ -15,30 +16,28 @@ namespace _07RareHunting
         }
 
         public void Update(PlayerDB PlayerData)
-        {
-            Console.WriteLine("Count: " +playerDB.Count);
-            bool possibleAdd = false;
-            
+        {            Console.WriteLine("Count: " + playerDB.Count);
             for (var i = 0; i < playerDB.Count; i++)
-            {
-                Console.WriteLine("Time: " + (DateTime.Now - playerDB[i].LastUpdateTime()));
+            {                              
                 if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
                 {
-                    playerDB[i].Update(PlayerData.GetSpawn(), PlayerData.GetPlayerName(), DateTime.Now);           
-                    possibleAdd = false;
-                    if ((DateTime.Now - playerDB[i].LastUpdateTime()).Seconds > DeleteSpan.Seconds)
-                    {
-                        Console.WriteLine("Removing scum");
-                        playerDB.RemoveAt(i);
-                    }
+                    playerDB[i].Update(PlayerData.GetPlayerID(), PlayerData.GetSpawn(), PlayerData.GetPlayerName(), DateTime.Now);           
+                    possibleAdd = false;                    
                     playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();  
                     return;
                 }
-                
                 else
                 {
                     possibleAdd = true;
-                }       
+                }
+                TimeSpan TimeGap = (DateTime.Now - playerDB[i].LastUpdateTime());
+
+                if (TimeGap.Seconds > DeleteSpan.Seconds)
+                {
+                    Console.WriteLine("Removing scum: " + i +" under ID: " + PlayerData.GetPlayerID());
+                    playerDB.RemoveAt(i);
+                    possibleAdd = false;
+                }                
             }
 
             if (possibleAdd)
@@ -50,17 +49,15 @@ namespace _07RareHunting
         //Update DB with current JSON data
         public void Add(PlayerDB newPlayerData)
         {
+            Console.WriteLine("Adding new player: " + newPlayerData.GetPlayerID());
             playerDB.Add(newPlayerData);
         }
 
-        public void Delete(PlayerDB newPlayerData)
+        public void Delete()
         {
             for (int i = 0; i < playerDB.Count; i++)
             {
-                if (playerDB[i].GetPlayerID().Equals(newPlayerData.GetPlayerID()))
-                {
-                    playerDB.RemoveAt(i);
-                }
+                //The delete method within Update() doesn't function correctly down here.
             }
         }
 

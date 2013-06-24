@@ -69,6 +69,8 @@ namespace _07RareHunting
                 EndOfTime = DateTime.Now.AddMinutes(5);
                 activeTimer.Enabled = true;
                 activeTimer.Start();
+                dbUpdateTimer.Enabled = true;
+                dbUpdateTimer.Start();
                 stripLabel.Text = "Active";
                 frmOptions.clientIDLabel.Text = Properties.Settings.Default.clientID;
             }
@@ -115,6 +117,11 @@ namespace _07RareHunting
         private void activeTimer_Tick(object sender, EventArgs e)
         {
             UpdateTimer();
+            if (frmOptions.clientIDLabel.Text.Equals("0"))
+            {
+                frmOptions.clientIDLabel.Text = GameInstance.LocalPlayer.playerID.ToString();
+                statusIDLabel.Text = "-  Client: " + GameInstance.LocalPlayer.playerID.ToString();
+            }
             //while (toolStripConnection.Text.Equals("Connected"))
             //{
             //    update_table();
@@ -147,6 +154,15 @@ namespace _07RareHunting
         {
             nameBox.Text = Properties.Settings.Default.permName;
             TopMost = Properties.Settings.Default.alwaysOnTop;
-        }      
+        }
+
+        private void dbUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // This updates the database with the local clients details, this way we can publish them to the DGV and keep them from being removed.
+            if (GameInstance.LocalPlayer.playerID != 0)
+            {
+                GameInstance.playerDB.Update(new PlayerDB(GameInstance.LocalPlayer.playerID, spawnCombo.Text, nameBox.Text));
+            }
+        }
     }
 }

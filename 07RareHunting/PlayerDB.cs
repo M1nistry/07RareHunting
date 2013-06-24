@@ -20,8 +20,9 @@ namespace _07RareHunting
             this.PlayerName = PlayerName;
         }
 
-        public void Update(String Spawn, String PlayerName, DateTime UpdateTime)
+        public void Update(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime)
         {
+            this.PlayerID = PlayerID;
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
             this.UpdateTime = UpdateTime;

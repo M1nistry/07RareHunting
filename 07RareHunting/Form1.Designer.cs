@@ -56,6 +56,8 @@ namespace _07RareHunting
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.activeTimer = new System.Windows.Forms.Timer(this.components);
+            this.dbUpdateTimer = new System.Windows.Forms.Timer(this.components);
+            this.statusIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spawnDGV)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +67,8 @@ namespace _07RareHunting
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stripLabel,
             this.toolStripStatusLabel1,
-            this.toolStripConnection});
+            this.toolStripConnection,
+            this.statusIDLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 518);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(272, 22);
@@ -405,6 +408,16 @@ namespace _07RareHunting
             this.activeTimer.Interval = 500;
             this.activeTimer.Tick += new System.EventHandler(this.activeTimer_Tick);
             // 
+            // dbUpdateTimer
+            // 
+            this.dbUpdateTimer.Interval = 2000;
+            this.dbUpdateTimer.Tick += new System.EventHandler(this.dbUpdateTimer_Tick);
+            // 
+            // statusIDLabel
+            // 
+            this.statusIDLabel.Name = "statusIDLabel";
+            this.statusIDLabel.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,6 +471,8 @@ namespace _07RareHunting
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         public System.Windows.Forms.ToolStripStatusLabel toolStripConnection;
         public System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.Timer dbUpdateTimer;
+        private System.Windows.Forms.ToolStripStatusLabel statusIDLabel;
 
     }
 }
