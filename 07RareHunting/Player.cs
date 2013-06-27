@@ -27,8 +27,6 @@ namespace _07RareHunting
 
         #region Variables
 
-        private Form1 form1;
-
         public string Name { get; set; }
         public string Spawn { get; set; }
 

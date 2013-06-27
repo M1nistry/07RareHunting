@@ -89,12 +89,6 @@
     <Compile Include="Game.cs" />
     <Compile Include="LiteLobbyPeer.cs" />
     <Compile Include="LobbyHandler.cs" />
-    <Compile Include="Options.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Options.Designer.cs">
-      <DependentUpon>Options.cs</DependentUpon>
-    </Compile>
     <Compile Include="Player.cs" />
     <Compile Include="PlayerDB.cs" />
     <Compile Include="PopulatePlayerDB.cs" />
@@ -103,9 +97,6 @@
     <Compile Include="PhotonServer.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Options.resx">
-      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

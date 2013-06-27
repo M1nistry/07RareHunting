@@ -8,7 +8,7 @@ namespace _07RareHunting
     {
         public List<PlayerDB> playerDB;
         private TimeSpan DeleteSpan = TimeSpan.FromSeconds(20);
-        private bool possibleAdd = false;
+        private bool possibleAdd;
 
         public PopulatePlayerDB()
         {
@@ -16,7 +16,7 @@ namespace _07RareHunting
         }
 
         public void Update(PlayerDB PlayerData)
-        {            Console.WriteLine("Count: " + playerDB.Count);
+        {   Console.WriteLine("Count: " + playerDB.Count);
             for (var i = 0; i < playerDB.Count; i++)
             {                              
                 if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
@@ -37,7 +37,7 @@ namespace _07RareHunting
                     Console.WriteLine("Removing scum: " + i +" under ID: " + PlayerData.GetPlayerID());
                     playerDB.RemoveAt(i);
                     possibleAdd = false;
-                }                
+                }                              
             }
 
             if (possibleAdd)
@@ -46,7 +46,6 @@ namespace _07RareHunting
             }
         }
 
-        //Update DB with current JSON data
         public void Add(PlayerDB newPlayerData)
         {
             Console.WriteLine("Adding new player: " + newPlayerData.GetPlayerID());
