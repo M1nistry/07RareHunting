@@ -13,11 +13,12 @@ namespace _07RareHunting
         private string PlayerName;
         private DateTime UpdateTime;
 
-        public PlayerDB(int PlayerID, String Spawn, String PlayerName)
+        public PlayerDB(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime)
         {
             this.PlayerID = PlayerID;
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
+            this.UpdateTime = UpdateTime;
         }
 
         public void Update(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime)

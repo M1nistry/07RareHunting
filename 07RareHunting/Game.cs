@@ -283,14 +283,11 @@ namespace _07RareHunting
                     LocalPlayer.playerID = actorNrReturnedForOpJoin;
                     Players[LocalPlayer.playerID] = LocalPlayer;
 
-                    Console.WriteLine("Joined room. Adding you to the Database.");
+                    
                     //Add Local Player to the PlayerDB after joining the room.
-                    playerDB.Add(new PlayerDB(LocalPlayer.playerID, "playerName", "location"));
-                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, "playerName", "location"));
-                    break;
-
-                case LiteOpCode.RaiseEvent:
-                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, form1.spawnCombo.Text, form1.nameBox.Text));
+                    Console.WriteLine("Joined room. Adding you to the Database.");
+                    playerDB.Add(new PlayerDB(LocalPlayer.playerID, "Name", "loc", DateTime.Now));
+                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, "loc", "name", DateTime.Now));
                     break;
             }
         }
@@ -350,7 +347,7 @@ namespace _07RareHunting
                     var evData = photonEvent[LiteEventKey.Data] as Hashtable;
                     if (form1.activeCheck.Checked)
                     {
-                        playerDB.Update(new PlayerDB(Convert.ToInt32(evData[1]), evData[2].ToString(), evData[3].ToString()));
+                        playerDB.Update(new PlayerDB(Convert.ToInt32(evData[1]), evData[2].ToString(), evData[3].ToString(), DateTime.Now));
                     }
                     break;
 

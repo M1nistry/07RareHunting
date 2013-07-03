@@ -53,7 +53,6 @@ namespace _07RareHunting
             this.tT = new System.Windows.Forms.ToolTip(this.components);
             this.timerLabel = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.activeTimer = new System.Windows.Forms.Timer(this.components);
             this.dbUpdateTimer = new System.Windows.Forms.Timer(this.components);
@@ -159,7 +158,7 @@ namespace _07RareHunting
             this.spawnDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.spawnDGV.Size = new System.Drawing.Size(272, 418);
             this.spawnDGV.StandardTab = true;
-            this.spawnDGV.TabIndex = 1;
+            this.spawnDGV.TabIndex = 2;
             this.spawnDGV.TabStop = false;
             // 
             // SpawnNumber
@@ -201,9 +200,12 @@ namespace _07RareHunting
             // 
             this.nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.nameBox.Location = new System.Drawing.Point(48, 6);
+            this.nameBox.MaxLength = 12;
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(100, 20);
-            this.nameBox.TabIndex = 3;
+            this.nameBox.TabIndex = 1;
+            this.tT.SetToolTip(this.nameBox, "Characters name");
+            this.nameBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.name_keypress);
             // 
             // label2
             // 
@@ -218,8 +220,8 @@ namespace _07RareHunting
             // spawnCombo
             // 
             this.spawnCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.spawnCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.spawnCombo.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.spawnCombo.FormattingEnabled = true;
             this.spawnCombo.Items.AddRange(new object[] {
             "1",
             "2",
@@ -345,13 +347,28 @@ namespace _07RareHunting
             "122",
             "123",
             "124",
-            "125"});
+            "125",
+            "126",
+            "127",
+            "128",
+            "129",
+            "130",
+            "131",
+            "132",
+            "133",
+            "134",
+            "135",
+            "136",
+            "137",
+            "138",
+            "139",
+            "140"});
             this.spawnCombo.Location = new System.Drawing.Point(48, 33);
             this.spawnCombo.MaxDropDownItems = 15;
+            this.spawnCombo.MaxLength = 3;
             this.spawnCombo.Name = "spawnCombo";
             this.spawnCombo.Size = new System.Drawing.Size(100, 21);
             this.spawnCombo.TabIndex = 5;
-            this.spawnCombo.Text = "1";
             // 
             // activeCheck
             // 
@@ -394,16 +411,6 @@ namespace _07RareHunting
             this.notifyIcon1.BalloonTipTitle = "OSRS Rare spawn tool";
             this.notifyIcon1.Text = "Runescape Rare Spawn Tool";
             this.notifyIcon1.Visible = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(168, 384);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label3
             // 
@@ -504,6 +511,7 @@ namespace _07RareHunting
             // alwaysNameText
             // 
             this.alwaysNameText.Location = new System.Drawing.Point(144, 12);
+            this.alwaysNameText.MaxLength = 12;
             this.alwaysNameText.Name = "alwaysNameText";
             this.alwaysNameText.Size = new System.Drawing.Size(100, 20);
             this.alwaysNameText.TabIndex = 11;
@@ -596,7 +604,6 @@ namespace _07RareHunting
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(272, 553);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.tabPage);
             this.Controls.Add(this.spawnDGV);
             this.Controls.Add(this.statusStrip1);
@@ -634,7 +641,6 @@ namespace _07RareHunting
         private System.Windows.Forms.DataGridViewCheckBoxColumn Occupied;
         private System.Windows.Forms.DataGridViewTextBoxColumn Names;
         public System.Windows.Forms.DataGridView spawnDGV;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label timerLabel;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Timer activeTimer;

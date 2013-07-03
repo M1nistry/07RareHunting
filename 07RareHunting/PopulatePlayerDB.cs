@@ -7,7 +7,8 @@ namespace _07RareHunting
     public class PopulatePlayerDB
     {
         public List<PlayerDB> playerDB;
-        private TimeSpan DeleteSpan = TimeSpan.FromSeconds(20);
+        public List<String> dgvNames;
+        private TimeSpan DeleteSpan = TimeSpan.FromSeconds(30);
         private bool possibleAdd;
 
         public PopulatePlayerDB()
@@ -21,7 +22,7 @@ namespace _07RareHunting
             {                              
                 if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
                 {
-                    playerDB[i].Update(PlayerData.GetPlayerID(), PlayerData.GetSpawn(), PlayerData.GetPlayerName(), DateTime.Now);           
+                    playerDB[i].Update(PlayerData.GetPlayerID(), PlayerData.GetSpawn(), PlayerData.GetPlayerName(), DateTime.Now);
                     possibleAdd = false;                    
                     playerDB = playerDB.OrderBy(q => q.GetPlayerID()).ToList();  
                     return;
@@ -48,7 +49,6 @@ namespace _07RareHunting
 
         public void Add(PlayerDB newPlayerData)
         {
-            Console.WriteLine("Adding new player: " + newPlayerData.GetPlayerID());
             playerDB.Add(newPlayerData);
         }
 
@@ -64,6 +64,8 @@ namespace _07RareHunting
         {
             return playerDB;
         }
+
+        
 
         public void ClearPlayerDB()
         {
