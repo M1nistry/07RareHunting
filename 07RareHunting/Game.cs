@@ -108,7 +108,6 @@ namespace _07RareHunting
             }
             catch (Exception ex)
             {
-                DebugReturn("Exception in Gameloop: " + ex.ToString());
             }
         }
 
@@ -153,7 +152,6 @@ namespace _07RareHunting
             }
             else if (Peer.PeerState != PeerStateValue.Disconnected)
             {
-                DebugReturn("already connected! disconnect first.");
                 return false;
             }
 
@@ -165,7 +163,6 @@ namespace _07RareHunting
 
             if (!Peer.Connect(ServerAddress, AppName))
             {
-                DebugReturn("Couldn't connect. Check debug log.");
                 return false;
             }
 
@@ -198,8 +195,7 @@ namespace _07RareHunting
             // handle returnCodes for connect, disconnect and errors (non-operations)
             switch (returnCode)
             {
-                case StatusCode.Connect:
-                    DebugReturn("Connect(ed)");                    
+                case StatusCode.Connect:               
                     JoinRandomWithLobby();
 
                     //Create DB Object
@@ -207,7 +203,6 @@ namespace _07RareHunting
 
                     break;
                 case StatusCode.Disconnect:
-                    DebugReturn("Disconnect(ed) Peer.state: " + Peer.PeerState);
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -216,11 +211,6 @@ namespace _07RareHunting
 
                     break;
                 case StatusCode.ExceptionOnConnect:
-                    DebugReturn("ExceptionOnConnect. Peer.state: " + Peer.PeerState);
-                    if (ServerAddress.StartsWith("127.0.0.1"))
-                    {
-                        DebugReturn("The server address is '127.0.0.1'. This won't work on a device. Adjust this to your server's address.");
-                    }
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -228,7 +218,6 @@ namespace _07RareHunting
                     }
                     break;
                 case StatusCode.Exception:
-                    DebugReturn("Exception. Peer.state: " + Peer.PeerState);
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
@@ -236,25 +225,12 @@ namespace _07RareHunting
                     }
                     break;
                 case StatusCode.SendError:
-                    DebugReturn("SendError! Peer.state: " + this.Peer.PeerState);
                     LocalPlayer.playerID = 0;
                     lock (Players)
                     {
                         Players.Clear();
                     }
-                    break;
-                case StatusCode.EncryptionEstablished:
-                    DebugReturn("Encryption now available: " + this.Peer.IsEncryptionAvailable);
-                    break;
-                case StatusCode.EncryptionFailedToEstablish:
-                    DebugReturn("Encryption initialisation failed. Check previous debug output.");
-                    break;
-                case StatusCode.QueueIncomingReliableWarning:
-                    Console.WriteLine("Status Code is working");
-                    break;
-                default:
-                    DebugReturn("OnStatusChanged(): " + returnCode);
-                    break;
+                    break;;
             }
         }
 
@@ -262,10 +238,6 @@ namespace _07RareHunting
         // Only called for reliable commands! Anything sent unreliable will not produce a response.
         public void OnOperationResponse(OperationResponse operationResponse)
         {
-            if (operationResponse.OperationCode != (byte)LiteOpCode.RaiseEvent)
-            {
-                DebugReturn("OnOperationResponse() " + operationResponse.ToStringFull());
-            }
 
             // handle operation returns (aside from "join", this demo does not watch for returns)
             switch (operationResponse.OperationCode)
@@ -274,7 +246,6 @@ namespace _07RareHunting
                     // in case join fails, it won't contain the expected data. Let's print what's in there
                     if (operationResponse.ReturnCode != 0)
                     {
-                        DebugReturn("Join failed. Response: " + operationResponse.ToStringFull());
                         break;
                     }
 
@@ -295,9 +266,7 @@ namespace _07RareHunting
         // Called by Photon lib for each incoming event (player- and position-data in this demo, as well as joins and leaves).
         // Processed within PhotonPeer.DispatchIncomingCommands()!
         public void OnEvent(EventData photonEvent)
-        {
-            
-            DebugReturn("OnEvent() " + photonEvent.ToStringFull());
+        {           
 
             int actorNr = (int)photonEvent[LiteEventKey.ActorNr];
 
@@ -334,10 +303,6 @@ namespace _07RareHunting
                     if (p != null)
                     {
                         p.SetInfo((Hashtable)photonEvent[LiteEventKey.CustomContent]);                       
-                    }
-                    else
-                    {
-                        DebugReturn("did not find player to set info: " + actorNr);
                     }
 
                     PrintPlayers();
@@ -428,13 +393,6 @@ namespace _07RareHunting
                 }
             }
 
-            DebugReturn(players);
-        }
-
-        // This is only used by the game / application, not by the Photon library
-        public void DebugReturn(string debug)
-        {
-            Console.WriteLine("Debug: " + debug);
         }
 
         #endregion

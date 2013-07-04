@@ -17,9 +17,10 @@ namespace _07RareHunting
         }
 
         public void Update(PlayerDB PlayerData)
-        {   Console.WriteLine("Count: " + playerDB.Count);
+        {   
             for (var i = 0; i < playerDB.Count; i++)
-            {                              
+            {   
+                //Checking if the player is already in the database- if so, update them.           
                 if (playerDB[i].GetPlayerID().Equals(PlayerData.GetPlayerID()))
                 {
                     playerDB[i].Update(PlayerData.GetPlayerID(), PlayerData.GetSpawn(), PlayerData.GetPlayerName(), DateTime.Now);
@@ -32,10 +33,10 @@ namespace _07RareHunting
                     possibleAdd = true;
                 }
                 TimeSpan TimeGap = (DateTime.Now - playerDB[i].LastUpdateTime());
-
+                //Checking to see if a player within the databse has updated within the last 30 seconds- if not, remove them.
                 if (TimeGap.Seconds > DeleteSpan.Seconds)
                 {
-                    Console.WriteLine("Removing scum: " + i +" under ID: " + PlayerData.GetPlayerID());
+                    //Console.WriteLine("Removing scum: " + i +" under ID: " + PlayerData.GetPlayerID());
                     playerDB.RemoveAt(i);
                     possibleAdd = false;
                 }                              
@@ -52,20 +53,10 @@ namespace _07RareHunting
             playerDB.Add(newPlayerData);
         }
 
-        public void Delete()
-        {
-            for (int i = 0; i < playerDB.Count; i++)
-            {
-                //The delete method within Update() doesn't function correctly down here.
-            }
-        }
-
         public List<PlayerDB> GetPlayerDB()
         {
             return playerDB;
-        }
-
-        
+        }        
 
         public void ClearPlayerDB()
         {

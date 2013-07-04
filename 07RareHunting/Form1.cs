@@ -170,6 +170,7 @@ namespace _07RareHunting
             System.Diagnostics.Process.Start("http://services.runescape.com/m=forum/forums.ws?317,318,59,65016317,goto,1");
         }
 
+        //Restricting input into the name box so only correct names can be input.
         private void name_keypress(object sender, KeyPressEventArgs e)
         {
             const char Backspace = '\u0008';
