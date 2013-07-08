@@ -38,6 +38,9 @@ namespace _07RareHunting
                 spawnDGV.Rows[i].SetValues(i+1);
             }
 
+            dbUpdateTimer.Enabled = true;
+            dbUpdateTimer.Start();
+
             LobbyHandlerInstance = new LobbyHandler(this.GameInstance.ServerAddress, GameInstance.protocol,
                                                     Game.AppName, Game.LobbyName, this);
                 LobbyHandlerInstance.StartService();
@@ -52,16 +55,16 @@ namespace _07RareHunting
         private void updateButton_Click(object sender, EventArgs e)
         {
             //If the person is marked as active, update to the server with the supplied information.
-            if (activeCheck.Checked && !nameBox.Text.Equals("") && spawnCombo.Text != "" && !nameBox.Text.Equals("            "))
+            if (activeCheck.Checked && !nameBox.Text.Equals("") && spawnCombo.Text != "" && !nameBox.Text.Equals("            ") && GameInstance.LocalPlayer.playerID != 0)
             {
-                GameInstance.NumberSpawn = Convert.ToInt32(spawnCombo.Text);
-                GameInstance.NameSpawn = nameBox.Text;
                 EndOfTime = DateTime.Now.AddMinutes(5);
                 activeTimer.Enabled = true;
                 activeTimer.Start();
-                dbUpdateTimer.Enabled = true;
-                dbUpdateTimer.Start();
-                stripLabel.Text = "Active";
+                stripLabel.Text = "Active";                
+            }
+            else if (GameInstance.LocalPlayer.playerID == 0)
+            {
+                MessageBox.Show("Please wait until you have connected to update your status.");
             }
             else
             {
@@ -89,13 +92,14 @@ namespace _07RareHunting
         {            
             for (int j = 0; j < spawnDGV.Rows.Count; j++)
             {
-                spawnDGV.Rows[j].Cells[2].Value = "";                
+                spawnDGV.Rows[j].Cells[2].Value = "";
+                spawnDGV.Rows[j].Cells[1].Value = false;
                 for (int i = 0; i < playerDB.playerDB.Count; i++)
                 {                
                     if (playerDB.playerDB[i].GetSpawn() == j.ToString() && j > 0)
                     {                            
                         spawnDGV.Rows[(j - 1)].Cells[2].Value += playerDB.playerDB[i].GetPlayerName() + ", ";
-                        spawnDGV.Rows[(j - 1)].Cells[1].Value = true;   
+                        spawnDGV.Rows[(j - 1)].Cells[1].Value = true;
                     }                        
                 }
             }            
@@ -106,15 +110,25 @@ namespace _07RareHunting
         {
             UpdateTimer();
             playerDB = GameInstance.playerDB;
-            
+            GameInstance.NumberSpawn = Convert.ToInt32(spawnCombo.Text);
+            GameInstance.NameSpawn = nameBox.Text;
+            GameInstance.IsActive = activeCheck.Checked;
+
+            if (activeCheck.Checked)
+            {
+                GameInstance.playerDB.Update(new PlayerDB(GameInstance.LocalPlayer.playerID, spawnCombo.Text,
+                                                          nameBox.Text, DateTime.Now, activeCheck.Checked));
+                update_table();
+            }
+
             if (statusIDLabel.Text.Equals("") || statusIDLabel.Text.Equals("-  Client: 0"))
             {
                 statusIDLabel.Text = "-  Client: " + GameInstance.LocalPlayer.playerID.ToString();
             }
-
+ 
             if (GameInstance.LocalPlayer.playerID != 0)
             {
-                update_table();
+                
             }
         }
 
@@ -134,6 +148,15 @@ namespace _07RareHunting
                 activeCheck.Checked = false;
                 timerLabel.Text = "0:00";
                 ActiveAlert();
+                clearDGV();
+            }
+
+            if (!activeCheck.Checked)
+            {
+                activeTimer.Stop();
+                activeCheck.Checked = false;
+                timerLabel.Text = "0:00";
+                clearDGV();
             }
         }
 
@@ -148,8 +171,8 @@ namespace _07RareHunting
         private void dbUpdateTimer_Tick(object sender, EventArgs e)
         {            
             if (GameInstance.LocalPlayer.playerID != 0)
-            {                
-                GameInstance.playerDB.Update(new PlayerDB(GameInstance.LocalPlayer.playerID, spawnCombo.Text, nameBox.Text, DateTime.Now));
+            {
+                toolStripConnection.Text = "Connected";
             }
         }
 
@@ -180,6 +203,15 @@ namespace _07RareHunting
             if (!Char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != Backspace && e.KeyChar != Delete && e.KeyChar != Space)
             {
                 e.Handled = true;
+            }
+        }
+
+        private void clearDGV()
+        {
+            for (int i = 0; i < spawnDGV.Rows.Count; i++)
+            {
+                spawnDGV.Rows[i].Cells[2].Value = "";
+                spawnDGV.Rows[i].Cells[1].Value = false;
             }
         }
     }

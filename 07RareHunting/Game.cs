@@ -36,12 +36,14 @@ namespace _07RareHunting
 
         public string NameSpawn = "";
         public int NumberSpawn;
-        public PopulatePlayerDB playerDB; 
+        public bool IsActive;
+        public PopulatePlayerDB playerDB;
 
         public List<Data> IncomingData = new List<Data>(); 
 
         private readonly Thread updateThread;        
 
+        //public string ServerAddress = "115.64.233.52:5055";
         public string ServerAddress = "115.64.233.52:5055";
         public ConnectionProtocol protocol = ConnectionProtocol.Udp;
         public string GameId = "RSRH07";  
@@ -253,12 +255,11 @@ namespace _07RareHunting
                     int actorNrReturnedForOpJoin = (int)operationResponse[LiteOpKey.ActorNr];
                     LocalPlayer.playerID = actorNrReturnedForOpJoin;
                     Players[LocalPlayer.playerID] = LocalPlayer;
-
                     
                     //Add Local Player to the PlayerDB after joining the room.
                     Console.WriteLine("Joined room. Adding you to the Database.");
-                    playerDB.Add(new PlayerDB(LocalPlayer.playerID, "Name", "loc", DateTime.Now));
-                    playerDB.Update(new PlayerDB(LocalPlayer.playerID, "loc", "name", DateTime.Now));
+                    playerDB.Add(new PlayerDB(LocalPlayer.playerID, "Name", "loc", DateTime.Now, true));
+                    //playerDB.Update(new PlayerDB(LocalPlayer.playerID, "loc", "name", DateTime.Now));
                     break;
             }
         }
@@ -310,10 +311,7 @@ namespace _07RareHunting
 
                 case 1:
                     var evData = photonEvent[LiteEventKey.Data] as Hashtable;
-                    if (form1.activeCheck.Checked)
-                    {
-                        playerDB.Update(new PlayerDB(Convert.ToInt32(evData[1]), evData[2].ToString(), evData[3].ToString(), DateTime.Now));
-                    }
+                    playerDB.Update(new PlayerDB(Convert.ToInt32(evData[1]), evData[2].ToString(), evData[3].ToString(), DateTime.Now, evData[4].Equals(IsActive)));                    
                     break;
 
             }
@@ -347,7 +345,7 @@ namespace _07RareHunting
             {
                 return;
             }
-           LocalPlayer.SendEvMove(Peer, NumberSpawn, NameSpawn);
+           LocalPlayer.SendEvMove(Peer, NumberSpawn, NameSpawn, IsActive);
         }
 
         // Will create and queue the operation OpRaiseEvent with local player's color and name (not position).

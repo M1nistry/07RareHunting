@@ -12,21 +12,24 @@ namespace _07RareHunting
         private string Spawn;
         private string PlayerName;
         private DateTime UpdateTime;
+        private bool Active;
 
-        public PlayerDB(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime)
+        public PlayerDB(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime, bool Active)
         {
             this.PlayerID = PlayerID;
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
             this.UpdateTime = UpdateTime;
+            this.Active = Active;
         }
 
-        public void Update(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime)
+        public void Update(int PlayerID, String Spawn, String PlayerName, DateTime UpdateTime, bool Active)
         {
             this.PlayerID = PlayerID;
             this.Spawn = Spawn;
             this.PlayerName = PlayerName;
             this.UpdateTime = UpdateTime;
+            this.Active = Active;
         }
 
         public int GetPlayerID()
@@ -62,6 +65,11 @@ namespace _07RareHunting
         public DateTime LastUpdateTime()
         {
             return UpdateTime;
+        }
+
+        public bool IsActive()
+        {
+            return Active;
         }
     }
 }

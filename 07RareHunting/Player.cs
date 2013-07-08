@@ -30,6 +30,8 @@ namespace _07RareHunting
         public string Name { get; set; }
         public string Spawn { get; set; }
 
+        public Form1 form1;
+
         /// <summary>
         /// This player's name. In the demo, we just set the platform's name and 
         /// use it only to display. Technically, the player is identified by her actorNr.
@@ -40,6 +42,8 @@ namespace _07RareHunting
         public int playerID = -1;
 
         public static bool isSendReliable;
+
+        
 
         #endregion
 
@@ -102,18 +106,18 @@ namespace _07RareHunting
             name = (string)customEventContent[(byte)DemoEventKey.PlayerName];
         }
 
-        public void SendEvMove(LitePeer peer, int spawnNumber, string spawnName)
+        public void SendEvMove(LitePeer peer, int spawnNumber, string spawnName, bool IsActive)
         {
             if (peer == null) return;
 
             var updateStatus = new Hashtable();
 
-            updateStatus.Add(1, playerID);
-            updateStatus.Add(2, spawnNumber);
-            updateStatus.Add(3, spawnName);
+                updateStatus.Add(1, playerID);
+                updateStatus.Add(2, spawnNumber);
+                updateStatus.Add(3, spawnName);
+                updateStatus.Add(4, IsActive);
 
-            peer.OpRaiseEvent(1, updateStatus, isSendReliable);
-            
+                peer.OpRaiseEvent(1, updateStatus, isSendReliable);
         }        
         #endregion
     }

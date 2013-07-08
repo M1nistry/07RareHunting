@@ -76,8 +76,7 @@ namespace _07RareHunting
             switch ((StatusCode)statusCode)
             {
                 case StatusCode.Connect:
-                    DebugReturn("Connected");
-                    form.toolStripConnection.Text = "Connected";
+                    DebugReturn("Connected");                    
                     peer.OpJoin(lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
                    
                     break;
