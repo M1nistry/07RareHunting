@@ -22,7 +22,7 @@ namespace _07RareHunting
         {
             InitializeComponent();
           
-            GameInstance = new Game(this.DebugReturn, true);
+            GameInstance = new Game(DebugReturn, true);
             GameInstance.Connect();
             GameInstance.form1 = this;
 
@@ -90,17 +90,15 @@ namespace _07RareHunting
         //Publishes the playerDB data to the Datagrid view
         private void update_table()
         {            
-            for (int j = 0; j < spawnDGV.Rows.Count; j++)
+            for (var j = 0; j < spawnDGV.Rows.Count; j++)
             {
                 spawnDGV.Rows[j].Cells[2].Value = "";
                 spawnDGV.Rows[j].Cells[1].Value = false;
-                for (int i = 0; i < playerDB.playerDB.Count; i++)
-                {                
-                    if (playerDB.playerDB[i].GetSpawn() == j.ToString() && j > 0)
-                    {                            
-                        spawnDGV.Rows[(j - 1)].Cells[2].Value += playerDB.playerDB[i].GetPlayerName() + ", ";
-                        spawnDGV.Rows[(j - 1)].Cells[1].Value = true;
-                    }                        
+                foreach (PlayerDB t in playerDB.playerDB)
+                {
+                    if (t.GetSpawn() != j.ToString() || j <= 0) continue;
+                    spawnDGV.Rows[(j - 1)].Cells[2].Value += t.GetPlayerName() + ", ";
+                    spawnDGV.Rows[(j - 1)].Cells[1].Value = true;
                 }
             }            
         }
@@ -125,17 +123,13 @@ namespace _07RareHunting
             {
                 statusIDLabel.Text = "-  Client: " + GameInstance.LocalPlayer.playerID.ToString();
             }
- 
-            if (GameInstance.LocalPlayer.playerID != 0)
-            {
-                
-            }
+
         }
 
         //Updates the 5-minute timer
         private void UpdateTimer()
         {                
-            TimeSpan TimeString = (EndOfTime - DateTime.Now);
+            var TimeString = (EndOfTime - DateTime.Now);
             //If the timer is above zero, format and update it
             if (TimeString.Seconds != -01)
             {
@@ -153,6 +147,7 @@ namespace _07RareHunting
 
             if (!activeCheck.Checked)
             {
+                //Stop updating and clear the DGV, emulates a fresh open of the program.
                 activeTimer.Stop();
                 activeCheck.Checked = false;
                 timerLabel.Text = "0:00";
@@ -206,9 +201,10 @@ namespace _07RareHunting
             }
         }
 
+        //Method to clear the DGV.
         private void clearDGV()
         {
-            for (int i = 0; i < spawnDGV.Rows.Count; i++)
+            for (var i = 0; i < spawnDGV.Rows.Count; i++)
             {
                 spawnDGV.Rows[i].Cells[2].Value = "";
                 spawnDGV.Rows[i].Cells[1].Value = false;
