@@ -9,7 +9,7 @@ Build 1.0.0: [Zippyshare](http://www11.zippyshare.com/v/90182294/file.html), [Me
 )
 
 
-Information
+About
 =======
 
 This tool allows for all players who are interested in hunting the current rare holiday items in a more effective way.
@@ -19,6 +19,20 @@ each player to report which spawn they were at.
 
 With this tool, a user can visually see which spawns are occupied and which are free, allowing players to more effectively
 hunt and find a rare item.
+
+Installation
+========
+
+Download the source
+
+Include DLL files: 
+* ExitGamesLibs
+* Photon.SocketServer
+* Photon3DotNet
+* PhotonHostRunetimeInterfaces
+
+Build and run!
+
 
 Instructions
 ========
